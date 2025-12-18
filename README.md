@@ -25,6 +25,13 @@
 - Clone this repo to obtain actively updated data to help secure your infrastructure.
 - Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
 
+## Database Statistics
+
+- **Total Malicious IPs**: 212,137
+- **Countries Affected**: 213
+- **Average Threat Severity**: 3.00/5
+- **Last Updated**: 2025-12-17 22:32:11 UTC
+
 ## Why you need to ban IP's 
 
 In short, an auto-generating curated banned‑IP list blocks known malicious hosts early, reducing noise, load, and risk with minimal effort. It complements IDS/WAFs and speeds up mitigation.
