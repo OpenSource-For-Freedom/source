@@ -532,14 +532,24 @@ def main():
     ips = load_ips_from_csv()
     print(f"Loaded {len(ips)} IPs from CSV")
 
-    # Load additional IPs from ingest sources if available
+    # Load additional IPs from ingest sources (per-source CSVs, fetched/new)
     extra = []
-    for extra_path in ["data/feeds_ips.csv"]:
-        p = Path(extra_path)
-        if p.exists():
-            new_items = load_ips_from_csv(str(p))
-            extra.extend(new_items)
-            print(f"Loaded {len(new_items)} IPs from {extra_path}")
+    data_dir = Path("data")
+    if data_dir.exists():
+        for p in sorted(data_dir.glob("*.csv")):
+            # skip any files that shouldn't be treated as source lists
+            if p.name in ("badips.db",):
+                continue
+            # Skip files that are outputs but still safe; we prefer explicit includes
+            if p.name == "stats.json":
+                continue
+            try:
+                new_items = load_ips_from_csv(str(p))
+                if new_items:
+                    extra.extend(new_items)
+                    print(f"Loaded {len(new_items)} IPs from {p}")
+            except Exception as e:
+                print(f"Warning: failed loading {p}: {e}")
 
     # Merge, dedupe by IP keeping highest severity
     merged = {}

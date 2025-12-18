@@ -34,22 +34,25 @@ jobs:
             | grep -v -E '\s[1-2]$' \
             | awk '{print $1","$2}' \
             > badip_list.csv
-
       - name: Ingest RSS/Atom feeds for additional IPs
         run: |
           python scripts/ingest_feeds.py
 
-      # OTX ingestion removed per request
+      - name: Fetch additional public blocklists (local tester)
+        run: |
+          python scripts/fetch_blacklists.py
+
+      - name: Orchestrate merge and processing
+        run: |
+          # `process_badips.py` now ingests `data/*.csv` (including fetched outputs)
+          # and is the single writer that updates `badip_list.csv` and `data/badips.db`.
+          python scripts/process_badips.py
 
       - name: Show sample and count
         run: |
           echo "Saved to badip_list.csv"
           head -n 20 badip_list.csv || true
           echo "Total lines: $(wc -l < badip_list.csv)"
-
-      - name: Process bad IPs and build database
-        run: |
-          python scripts/process_badips.py
 
       - name: Generate visualizations and README
         run: |

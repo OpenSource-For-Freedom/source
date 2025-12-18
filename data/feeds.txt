@@ -1,5 +1,4 @@
 # RSS/Atom feeds to ingest for potential malicious IP indicators.
-# Lines starting with # are comments.
 
 https://feeds.feedburner.com/GoogleOnlineSecurityBlog
 https://cloud.google.com/blog/topics/security/rss.xml
