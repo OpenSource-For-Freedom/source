@@ -94,5 +94,5 @@
 
 ---
 **Data Sources**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) | [Google Safe Browsing](https://developers.google.com/safe-browsing) | [Google Transparency Report](https://transparencyreport.google.com/) | **Last Generated**: 2025-12-17 20:11:36 UTC
-<div align="center">
+</div>
 
