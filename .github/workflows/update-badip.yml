@@ -61,21 +61,25 @@ jobs:
         run: |
           python scripts/generate_visualizations.py
 
-      - name: Commit and push changes
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          TARGET_BRANCH: ${{ github.ref_name }}
-          REPO: ${{ github.repository }}
+      - name: Commit generated changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update bad IP database and visualizations - $(date)" || echo "No changes to commit"
-          # If a GH_TOKEN is provided, configure the origin to use it for push authentication
-          if [ -n "${GH_TOKEN}" ]; then
-            git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+
+      - name: Optional force-push to `main` (dangerous)
+        if: ${{ secrets.FORCE_PUSH == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Attempting force push to main (this will fail if branch protection disallows it)"
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "GH_TOKEN not provided; cannot authenticate for push"; exit 1
           fi
-          git push origin HEAD:${TARGET_BRANCH} || echo "Nothing to push"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          git push --force origin HEAD:main || { echo "Force push failed or rejected by branch protection"; exit 1; }
 
       - name: Upload bad IP list artifact
         uses: actions/upload-artifact@v4
