@@ -113,7 +113,7 @@ cursor.execute('''
 ''')
 ```
 
-### 6. Export Data
+### 6. Export Data using Pandas
 
 ```python
 import pandas as pd
