@@ -3,4 +3,5 @@ geoip2>=4.8.0
 matplotlib>=3.8.0
 pandas>=2.1.0
 plotly>=5.17.0
-pygeoip>=0.3.2
+kaleido>=1.2.0
+feedparser>=6.0.0
