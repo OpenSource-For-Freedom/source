@@ -63,14 +63,18 @@ jobs:
 
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           TARGET_BRANCH: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update bad IP database and visualizations - $(date)" || echo "No changes to commit"
-          # Push back to the branch that triggered the workflow (schedule or manual run)
+          # If a GH_TOKEN is provided, configure the origin to use it for push authentication
+          if [ -n "${GH_TOKEN}" ]; then
+            git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          fi
           git push origin HEAD:${TARGET_BRANCH} || echo "Nothing to push"
 
       - name: Upload bad IP list artifact
