@@ -12,6 +12,7 @@ import csv
 from pathlib import Path
 from datetime import datetime
 import json
+
 # gzip used previously; keep import if future compressed inputs are supported
 # removed unused 'gzip' to satisfy linter
 import ipaddress
@@ -310,8 +311,8 @@ def download_geoip_database(target_path="data/GeoLite2-City.mmdb"):
             f.write(response.content)
 
         print(
-            "GeoLite2 database downloaded successfully (" +
-            f"{len(response.content) / 1024 / 1024:.1f} MB)"
+            "GeoLite2 database downloaded successfully ("
+            + f"{len(response.content) / 1024 / 1024:.1f} MB)"
         )
         return True
     except Exception as e:  # pylint: disable=broad-exception-caught
@@ -333,8 +334,8 @@ def download_geoip_asn_database(target_path="data/GeoLite2-ASN.mmdb"):
         with open(target_path, "wb") as f:
             f.write(response.content)
         print(
-            "GeoLite2 ASN database downloaded successfully (" +
-            f"{len(response.content) / 1024 / 1024:.1f} MB)"
+            "GeoLite2 ASN database downloaded successfully ("
+            + f"{len(response.content) / 1024 / 1024:.1f} MB)"
         )
         return True
     except Exception as e:  # pylint: disable=broad-exception-caught
