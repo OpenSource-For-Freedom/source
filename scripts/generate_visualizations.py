@@ -7,6 +7,8 @@ import sqlite3
 import json
 from pathlib import Path
 from datetime import datetime
+import subprocess
+import sys
 
 try:
     import matplotlib.pyplot as plt
@@ -815,8 +817,12 @@ def main():
     create_geo_map(stats)
     create_world_pins_map(stats)
     create_steampunk_dashboard(stats)
-    print("\nUpdating README...")
-    update_readme(stats)
+    print("\nUpdating README statistics (safe update)...")
+    # Use the lightweight updater that patches only the Database Statistics block
+    try:
+        subprocess.run([sys.executable, "scripts/update_readme.py"], check=False)
+    except Exception as e:
+        print(f"Failed to run update_readme_stats.py: {e}")
 
     print("\nVisualization generation completed!")
 

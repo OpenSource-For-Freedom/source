@@ -63,9 +63,8 @@ jobs:
         run: |
           python scripts/generate_visualizations.py
 
-      - name: Sync README Database Statistics
-        run: |
-          python scripts/update_readme.py
+      # README is updated by `scripts/generate_visualizations.py`.
+      # Removed redundant updater to avoid conflicting writes.
 
       - name: Commit generated changes
         run: |

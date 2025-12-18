@@ -23,34 +23,17 @@
 
 <p><strong>Data updated every Sunday at midnight UTC.</strong></p>
 
-</div>
-<div align="center">
-
-<h2>Don't wait</h2>
-<p><strong>Stop waiting for your IDS and gateway to snoop around and react before the next attack.</strong></p>
-<img alt="batman" src="assets/bat.png" width="500" />
-
-<h2>Be Proactive</h2>
-<p><strong>Implement preemptive refusals: snap banned IPs out of your network before they know you're there.</strong></p>
-<img alt="batman" src="assets/bat_2.png" width="500" />
-
-</div>
 
 ---
-
-# Overview
-- This is an "API-KEY-LESS" repo.
-- Uses open-source data to collect known malicious IPs and geolocate them with Python.
-- Clone this repo to obtain actively updated data to help secure your infrastructure.
-- Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
 
 ## Database Statistics
 
 - **Total Malicious IPs**: 212,137
 - **Countries Affected**: 213
 - **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-17 22:32:11 UTC
+- **Last Updated**: 2025-12-18 10:02:02 UTC
 
+---
 
 ## Global Threat Distribution
 
@@ -62,43 +45,17 @@
 
 </div>
 
-## Why you need to ban IP's 
-
-In short, a compiled banned‑IP list blocks known malicious hosts early, reducing noise, load, and risk with minimal effort. It complements IDS/WAFs and speeds up mitigation.
-
-## Overview
-- This is an "AsPI-KEY-LESS" repo.
-- Uses open-source data to collect known malicious IPs and geolocate them with Python.
-- Clone this repo to obtain acdatatively updated data to help secure your infrastructure.
-- Source of truth: [Bad IP List](0.3.2
-
-/s IPs**: 212,137
-- **Countries Affected**: 213
-- **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-17 22:32:11 UTC
-istribution
-
-<div align="center">
-
-<img alt="Pin Map" src="data/chart- **[Overview.md](docs/OVERVIEW.md)** - General Overview of repository function
-s/map_pins.png" width="docs/920" />
-
-<img alt="Dashboard" src="- **[]Database.md()docs/DB.md** - Database design, included files and pipeline
-data/charts/dashboard.png" width="920" />
-
-</div>
-
----
-
-## Detailed Views
-
-<div align="center">
-
 <img alt="Countries Chart" src="data/charts/countries.png" width="920" />
 
 <img alt="World Map" src="data/charts/worldmap.png" width="920" />
 
 </div>
+
+# Overview
+- This is an "API-KEY-LESS" repo.
+- Uses open-source data to collect known malicious IPs and geolocate them with Python.
+- Clone this repo to obtain actively updated data to help secure your infrastructure.
+- Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
 
 ## Documentation
 
