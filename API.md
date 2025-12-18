@@ -1,4 +1,4 @@
-# API Documentation
+# API 
 
 ## Bad IP Database API
 
@@ -138,7 +138,7 @@ with open('bad_ips_export.json', 'w') as f:
     json.dump(data, f, indent=2)
 ```
 
-## Schema Reference
+## Reference
 
 ### bad_ips Table
 
@@ -183,7 +183,7 @@ with open('bad_ips_export.json', 'w') as f:
 | update_time | TEXT | ISO 8601 timestamp |
 | countries_affected | INTEGER | Unique countries |
 
-## Best Practices
+## SECURITY
 
 1. **Always use parameterized queries** to prevent SQL injection
 2. **Close connections** after use: `conn.close()`
@@ -212,7 +212,6 @@ analysis = {
     ).fetchone()[0],
 }
 
-# Top 10 countries
 cursor.execute('''
     SELECT country, COUNT(*) as count
     FROM ip_geolocation

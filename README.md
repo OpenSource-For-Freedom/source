@@ -1,20 +1,22 @@
 
 <div align="center">
 
-    <img alt="GitHub" src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/github.svg" width="64" height="64" />
+<img alt="SOURCE" src="https://raw.githubusercontent.com/OpenSource-For-Freedom/source/refs/heads/Primary/assets/source.png" width="400" style="border: 3px solid black;" />
 
-    <h1>Bad IP Database</h1>
+<img alt="GitHub" src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/github.svg" width="64" height="64" />
 
-    <p>
-        <img alt="Python" src="https://img.shields.io/badge/Python-3.14-%233776AB?logo=python&logoColor=white" />
-        <img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repo-%2312100E?logo=github&logoColor=white&labelColor=%23A67C52&color=%2312100E" />
-        <img alt="Actions" src="https://github.com/OpenSource-For-Freedom/source/actions/workflows/update-badip.yml/badge.svg" />
-        <img alt="Views" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FOpenSource-For-Freedom/source&title=Views&edge_flat=false&count_bg=%238A5A2B&title_bg=%2312100E&color=%23D7B377" />
-    </p>
+<h1>Bad IP Database</h1>
 
-    <em>Automatically updated malicious IP database with geolocation mapping and threat analysis.</em>
+<p>
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.14-%233776AB?logo=python&logoColor=white" />
+    <img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repo-%2312100E?logo=github&logoColor=white&labelColor=%23A67C52&color=%2312100E" />
+    <img alt="Actions" src="https://github.com/OpenSource-For-Freedom/source/actions/workflows/update-badip.yml/badge.svg" />
+    <img alt="Views" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FOpenSource-For-Freedom/source&title=Views&edge_flat=false&count_bg=%238A5A2B&title_bg=%2312100E&color=%23D7B377" />
+</p>
 
-    <p><strong>Data updated every Sunday at midnight UTC.</strong></p>
+<em>Automatically updated malicious IP database with geolocation mapping and threat analysis.</em>
+
+<p><strong>Data updated every Sunday at midnight UTC.</strong></p>
 
 </div>
 
@@ -33,9 +35,9 @@
 
 <div align="center">
 
-    <img alt="Pin Map" src="data/charts/map_pins.png" width="920" />
+<img alt="Pin Map" src="data/charts/map_pins.png" width="920" />
 
-    <img alt="Dashboard" src="data/charts/dashboard.png" width="920" />
+<img alt="Dashboard" src="data/charts/dashboard.png" width="920" />
 
 </div>
 
@@ -55,9 +57,8 @@
 
 ## Documentation
 
-- **[QUICKSTART.md](QUICKSTART.md)** - Getting started guide
 - **[API.md](API.md)** - Database schema and query examples
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Development guidelines
+
 
 ---
 
