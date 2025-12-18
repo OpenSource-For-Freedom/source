@@ -98,7 +98,18 @@ def apply_steampunk_theme():
 
 def steampunk_palette(n):
     """Return a list of n vibrant cyberattack colors: oranges, pinks, blues, yellows."""
-    base = ["#ff6b35", "#ff1493", "#00d4ff", "#ffff00", "#ff00ff", "#ffa500", "#1e90ff", "#ff69b4", "#00ffff", "#ffd700"]
+    base = [
+        "#ff6b35",
+        "#ff1493",
+        "#00d4ff",
+        "#ffff00",
+        "#ff00ff",
+        "#ffa500",
+        "#1e90ff",
+        "#ff69b4",
+        "#00ffff",
+        "#ffd700",
+    ]
     if n <= len(base):
         return base[:n]
     colors = []
@@ -113,13 +124,18 @@ def apply_gradient_background(fig, ax):
     # Create gradient from blue (top-left) to darker blue (bottom-right)
     gradient = np.linspace(0, 1, 256).reshape(1, -1)
     gradient = np.vstack([gradient] * 256)
-    
+
     # Deep blue gradient: from #0066ff (top-left) to #000033 (bottom-right)
-    ax.imshow(gradient, aspect='auto', cmap='Blues_r', alpha=0.8, extent=[ax.get_xlim()[0], ax.get_xlim()[1], 
-                                                                            ax.get_ylim()[0], ax.get_ylim()[1]],
-              zorder=-1)
-    fig.patch.set_facecolor('#0a0a2e')
-    ax.set_facecolor('#0a0a2e')
+    ax.imshow(
+        gradient,
+        aspect="auto",
+        cmap="Blues_r",
+        alpha=0.8,
+        extent=[ax.get_xlim()[0], ax.get_xlim()[1], ax.get_ylim()[0], ax.get_ylim()[1]],
+        zorder=-1,
+    )
+    fig.patch.set_facecolor("#0a0a2e")
+    ax.set_facecolor("#0a0a2e")
 
 
 def create_steampunk_dashboard(stats):
@@ -200,10 +216,12 @@ def create_steampunk_dashboard(stats):
         gradient = np.linspace(0, 1, 256).reshape(1, -1)
         gradient = np.vstack((gradient, gradient))
         extent = [0, 1, 0, 1]
-        
+
         # Create invisible axis for gradient
         ax_bg = fig.add_axes([0, 0, 1, 1])
-        ax_bg.imshow(gradient, extent=extent, aspect="auto", cmap="Blues_r", alpha=0.4, zorder=0)
+        ax_bg.imshow(
+            gradient, extent=extent, aspect="auto", cmap="Blues_r", alpha=0.4, zorder=0
+        )
         ax_bg.set_xlim(0, 1)
         ax_bg.set_ylim(0, 1)
         ax_bg.axis("off")
@@ -219,7 +237,11 @@ def create_steampunk_dashboard(stats):
             ]
             # Vibrant orange, pink, purple palette
             bright_palette = ["#ff6b35", "#ff1493", "#ff69b4", "#da70d6", "#ba55d3"]
-            colors = bright_palette[: len(severities)] if len(severities) <= 5 else bright_palette
+            colors = (
+                bright_palette[: len(severities)]
+                if len(severities) <= 5
+                else bright_palette
+            )
             _pie = ax1.pie(
                 sev_counts,
                 startangle=90,
@@ -250,7 +272,15 @@ def create_steampunk_dashboard(stats):
                 angle = np.deg2rad((theta[i] + theta[i + 1]) / 2)
                 x = 1.1 * np.cos(angle)
                 y = 1.1 * np.sin(angle)
-                t = ax1.text(x, y, labels[i], ha="center", va="center", fontsize=9, color="#ffffff")
+                t = ax1.text(
+                    x,
+                    y,
+                    labels[i],
+                    ha="center",
+                    va="center",
+                    fontsize=9,
+                    color="#ffffff",
+                )
                 t.set_path_effects([pe.withStroke(linewidth=2, foreground="#0a0a2e")])
             ax1.set_title("Threat Severity", color="#ffff00", fontweight="bold")
             ax1.set_facecolor("#0a0a2e")
@@ -264,7 +294,16 @@ def create_steampunk_dashboard(stats):
             x = np.arange(len(countries))
             max_c = max(country_counts)
             # Vibrant orange, pink, blue, yellow palette
-            colors = ["#ff6b35", "#ff1493", "#1e90ff", "#ffff00", "#ffa500", "#ff69b4", "#00d4ff", "#da70d6"] * ((len(countries) // 8) + 1)
+            colors = [
+                "#ff6b35",
+                "#ff1493",
+                "#1e90ff",
+                "#ffff00",
+                "#ffa500",
+                "#ff69b4",
+                "#00d4ff",
+                "#da70d6",
+            ] * ((len(countries) // 8) + 1)
             colors = colors[: len(countries)]
             bars = ax2.bar(
                 x, country_counts, color=colors, edgecolor="#00d4ff", linewidth=1.2
@@ -280,7 +319,9 @@ def create_steampunk_dashboard(stats):
                     fontsize=9,
                     color="#ffffff",
                 )
-                tt.set_path_effects([pe.withStroke(linewidth=1.5, foreground="#0a0a2e")])
+                tt.set_path_effects(
+                    [pe.withStroke(linewidth=1.5, foreground="#0a0a2e")]
+                )
             ax2.set_xticks(x)
             ax2.set_xticklabels(countries, rotation=35, ha="right", color="#00d4ff")
             ax2.set_title("Top Countries", color="#ffff00", fontweight="bold")
@@ -296,7 +337,16 @@ def create_steampunk_dashboard(stats):
         if asn_counts:
             y = np.arange(len(asns))
             # Vibrant orange, pink, blue, yellow palette
-            colors = ["#ff6b35", "#ff1493", "#1e90ff", "#ffff00", "#ffa500", "#ff69b4", "#00d4ff", "#da70d6"] * ((len(asns) // 8) + 1)
+            colors = [
+                "#ff6b35",
+                "#ff1493",
+                "#1e90ff",
+                "#ffff00",
+                "#ffa500",
+                "#ff69b4",
+                "#00d4ff",
+                "#da70d6",
+            ] * ((len(asns) // 8) + 1)
             colors = colors[: len(asns)]
             bars = ax3.barh(
                 y, asn_counts, color=colors, edgecolor="#00d4ff", linewidth=1.2
@@ -312,7 +362,9 @@ def create_steampunk_dashboard(stats):
                     fontsize=9,
                     color="#ffffff",
                 )
-                tt.set_path_effects([pe.withStroke(linewidth=1.5, foreground="#0a0a2e")])
+                tt.set_path_effects(
+                    [pe.withStroke(linewidth=1.5, foreground="#0a0a2e")]
+                )
             ax3.set_yticks(y)
             ax3.set_yticklabels(asns, color="#00d4ff")
             ax3.set_title("Top ASNs", color="#ff1493", fontweight="bold")
@@ -332,17 +384,38 @@ def create_steampunk_dashboard(stats):
             x = np.arange(len(names))
             sizes = 150 * (vals / (vals.max() or 1)) + 30
             # Vibrant orange, pink, blue, yellow palette
-            colors = ["#ff6b35", "#ff1493", "#1e90ff", "#ffff00", "#ffa500", "#ff69b4", "#00d4ff", "#da70d6"] * ((len(names) // 8) + 1)
+            colors = [
+                "#ff6b35",
+                "#ff1493",
+                "#1e90ff",
+                "#ffff00",
+                "#ffa500",
+                "#ff69b4",
+                "#00d4ff",
+                "#da70d6",
+            ] * ((len(names) // 8) + 1)
             colors = colors[: len(names)]
             ax4.scatter(x, vals, s=sizes, c=colors, edgecolor="#00d4ff", linewidth=1.2)
             for i, v in enumerate(vals):
                 tt = ax4.text(
-                    x[i], v, f"{int(v):,}", ha="center", va="bottom", fontsize=8, color="#ffffff"
+                    x[i],
+                    v,
+                    f"{int(v):,}",
+                    ha="center",
+                    va="bottom",
+                    fontsize=8,
+                    color="#ffffff",
                 )
-                tt.set_path_effects([pe.withStroke(linewidth=1.5, foreground="#0a0a2e")])
+                tt.set_path_effects(
+                    [pe.withStroke(linewidth=1.5, foreground="#0a0a2e")]
+                )
             ax4.set_xticks(x)
             ax4.set_xticklabels(names, rotation=35, ha="right", color="#00d4ff")
-            ax4.set_title("Top Cities (bubble size = IP count)", color="#ff1493", fontweight="bold")
+            ax4.set_title(
+                "Top Cities (bubble size = IP count)",
+                color="#ff1493",
+                fontweight="bold",
+            )
             ax4.set_ylabel("IPs", color="#00d4ff")
             ax4.set_facecolor("#0a0a2e")
             ax4.tick_params(colors="#00d4ff")
@@ -452,7 +525,9 @@ def create_country_chart(stats):
         palette_colors = steampunk_palette(len(countries))
 
         fig, ax = plt.subplots(figsize=(14, 7), facecolor="#0a0a2e")
-        bars = ax.bar(x, counts, color=palette_colors, edgecolor="#00ffff", linewidth=1.5)
+        bars = ax.bar(
+            x, counts, color=palette_colors, edgecolor="#00ffff", linewidth=1.5
+        )
 
         # Value labels with subtle outline for readability
         for i, bar_obj in enumerate(bars):
@@ -473,7 +548,12 @@ def create_country_chart(stats):
         ax.set_xticklabels(countries, rotation=35, ha="right", color="#00d4ff")
         ax.set_xlabel("Country", color="#00d4ff")
         ax.set_ylabel("Number of Malicious IPs", color="#00d4ff")
-        ax.set_title("Top 15 Countries with Malicious IPs", pad=16, color="#ffff00", fontweight="bold")
+        ax.set_title(
+            "Top 15 Countries with Malicious IPs",
+            pad=16,
+            color="#ffff00",
+            fontweight="bold",
+        )
         ax.grid(axis="y", color="#2a2a4e", alpha=0.3)
         ax.set_axisbelow(True)
         ax.set_facecolor("#0a0a2e")
@@ -556,7 +636,12 @@ def create_severity_chart(stats):
 
         ax.set_xlabel("Threat Severity Level", color="#00d4ff")
         ax.set_ylabel("Number of IPs", color="#00d4ff")
-        ax.set_title("Malicious IP Threat Severity Distribution", pad=16, color="#ff1493", fontweight="bold")
+        ax.set_title(
+            "Malicious IP Threat Severity Distribution",
+            pad=16,
+            color="#ff1493",
+            fontweight="bold",
+        )
         ax.grid(axis="y", color="#2a2a4e", alpha=0.3)
         ax.set_axisbelow(True)
         ax.set_facecolor("#0a0a2e")
@@ -604,7 +689,9 @@ def create_geo_map(stats):
         max_count = counts.max() if len(counts) else 1
         palette_colors = steampunk_palette(len(labels))
 
-        bars = ax.barh(y, counts, color=palette_colors, edgecolor="#00ffff", linewidth=1.5)
+        bars = ax.barh(
+            y, counts, color=palette_colors, edgecolor="#00ffff", linewidth=1.5
+        )
 
         # Labels at bar end with outline
         for i, bar_obj in enumerate(bars):
@@ -625,7 +712,12 @@ def create_geo_map(stats):
         ax.set_yticklabels(labels, color="#00d4ff")
         ax.set_xlabel("Number of Malicious IPs", color="#00d4ff")
         ax.set_ylabel("Country", color="#00d4ff")
-        ax.set_title("Global Distribution of Malicious IPs (Top 20 Countries)", pad=16, color="#ffff00", fontweight="bold")
+        ax.set_title(
+            "Global Distribution of Malicious IPs (Top 20 Countries)",
+            pad=16,
+            color="#ffff00",
+            fontweight="bold",
+        )
         ax.grid(axis="x", color="#2a2a4e", alpha=0.3)
         ax.invert_yaxis()
         ax.set_axisbelow(True)
@@ -670,7 +762,16 @@ def create_world_pins_map(stats):
         ]
 
         # Map IP counts to neon colors cyclically
-        neon_colors = ["#ff6b35", "#00d4ff", "#ff00ff", "#00ff88", "#ffaa00", "#ff0080", "#00ffff", "#ffff00"]
+        neon_colors = [
+            "#ff6b35",
+            "#00d4ff",
+            "#ff00ff",
+            "#00ff88",
+            "#ffaa00",
+            "#ff0080",
+            "#00ffff",
+            "#ffff00",
+        ]
         marker_colors = [neon_colors[i % len(neon_colors)] for i in range(len(df))]
 
         fig = go.Figure(
@@ -704,7 +805,11 @@ def create_world_pins_map(stats):
                 coastlinecolor="#4a4a7e",
                 projection_type="natural earth",
             ),
-            title=dict(text="Global Malicious IPs — Country Pins", x=0.5, font=dict(color="#ffaa00", size=18)),
+            title=dict(
+                text="Global Malicious IPs — Country Pins",
+                x=0.5,
+                font=dict(color="#ffaa00", size=18),
+            ),
         )
 
         charts_path = Path("data/charts")
