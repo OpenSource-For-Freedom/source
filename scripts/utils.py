@@ -7,6 +7,7 @@ import sqlite3
 import sys
 from pathlib import Path
 import json
+
 try:
     import pandas as pd
 except ImportError:
