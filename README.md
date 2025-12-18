@@ -32,6 +32,17 @@
 - **Average Threat Severity**: 3.00/5
 - **Last Updated**: 2025-12-17 22:32:11 UTC
 
+
+## Global Threat Distribution
+
+<div align="center">
+
+<img alt="Pin Map" src="data/charts/map_pins.png" width="920" />
+
+<img alt="Dashboard" src="data/charts/dashboard.png" width="920" />
+
+</div>
+
 ## Why you need to ban IP's 
 
 In short, an auto-generating curated banned‑IP list blocks known malicious hosts early, reducing noise, load, and risk with minimal effort. It complements IDS/WAFs and speeds up mitigation.
@@ -125,18 +136,6 @@ A cooked and taste tested banned IP list reduces risk by proactively blocking kn
 - **Countries Affected**: 213
 - **Average Threat Severity**: 3.00/5
 - **Last Updated**: 2025-12-17 22:32:11 UTC
-
----
-
-## Global Threat Distribution
-
-<div align="center">
-
-<img alt="Pin Map" src="data/charts/map_pins.png" width="920" />
-
-<img alt="Dashboard" src="data/charts/dashboard.png" width="920" />
-
-</div>
 
 ---
 
