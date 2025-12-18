@@ -28,11 +28,11 @@
 
 <h2>Don't wait</h2>
 <p><strong>Stop waiting for your IDS and gateway to snoop around and react before the next attack.</strong></p>
-<img alt="batman" src="assets/bat.png" width="360" />
+<img alt="batman" src="assets/bat.png" width="400" />
 
 <h2>Be Proactive</h2>
 <p><strong>Implement preemptive refusals: snap banned IPs out of your network before they know you're there.</strong></p>
-<img alt="batman" src="assets/bat_2.png" width="360" />
+<img alt="batman" src="assets/bat_2.png" width="400" />
 
 </div>
 
