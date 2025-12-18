@@ -134,12 +134,6 @@ A cooked and taste tested banned IP list reduces risk by proactively blocking kn
     - Each step adds structure (DB tables, MMDB keys) tailored to consumer performance and query patterns.
 
 ## Database Statistics
-
-- **Total Malicious IPs**: 192,605
-- **Countries Affected**: 213
-- **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-17 20:11:36 UTC
-
 - **Total Malicious IPs**: 212,137
 - **Countries Affected**: 213
 - **Average Threat Severity**: 3.00/5
