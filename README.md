@@ -19,9 +19,15 @@
 
 ---
 
+# Overview
+- This is an "API-KEY-LESS" repo.
+- Uses open-source data to collect known malicious IPs and geolocate them with Python.
+- Clone this repo to obtain actively updated data to help secure your infrastructure.
+- Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
+
 ## Why you need to ban IP's 
 
-In short, curated banned‑IP list blocks known malicious hosts early, reducing noise, load, and risk with minimal effort. It complements IDS/WAFs and speeds up mitigation.
+In short, an auto-generating curated banned‑IP list blocks known malicious hosts early, reducing noise, load, and risk with minimal effort. It complements IDS/WAFs and speeds up mitigation.
 
 ## Dive in
 
@@ -37,8 +43,8 @@ A cooked and taste tested banned IP list reduces risk by proactively blocking kn
 
 **Key benefits**
 - Reduces attack surface: drops connections from known bad actors early, lowering load on IDS/IPS, application stacks, and logging pipelines.
-- Lowers mean time to mitigation: blocks repeat offenders immediately without per‑incident remediation.
-- Improves telemetry quality: fewer noisy or malicious flows means clearer analytics and alerting for real threats.
+- Lowers MTTM: blocks repeat offenders immediately without per‑incident remediation.
+- Improves telemetry/network quality: fewer noisy or malicious flows means clearer analytics and alerting for real threats (limiting their footprint in a good way)
 - Enforces consistency: shared lists ensure uniform blocking policies across cloud regions and on‑prem clusters.
 
 **Cloud vs on‑prem considerations**
@@ -53,18 +59,11 @@ A cooked and taste tested banned IP list reduces risk by proactively blocking kn
 
 **Ops best practices**
 - Automate updates and validation (CI/CD) with signed or versioned lists.
-- Apply tiered blocking (e.g., denylist vs watchlist) to reduce false positives.
-- Distribute lists in both human‑readable (CSV/JSON) and optimized binary formats (MMDB) for low‑latency lookups.
+- Apply tiered blocking ( or denylist vs watchlist) to reduce false positives.
+- Distribute lists in both human‑readable (CSV/JSON) and optimized formats for faster lookups.
 - Monitor effectiveness and tune using feedback loops from logs, honeypots, and threat intelligence.
-- Combine with rate limiting and anomaly detection for defense in depth.
+- Combine with rate limiting and anomaly detection for `DidS` defense in depth as a service.
 - Test rollback and allow‑listing for critical assets to prevent accidental service disruption.
-
-## Overview
-- This is an "API-KEY-LESS" repo.
-- Uses open-source data to collect known malicious IPs and geolocate them with Python.
-- Clone this repo to obtain actively updated data to help secure your infrastructure.
-- Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
-
 
 ## Database overview
 
