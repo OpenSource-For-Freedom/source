@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -59,12 +62,16 @@ jobs:
           python scripts/generate_visualizations.py
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_BRANCH: ${{ github.ref_name }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m "Update bad IP database and visualizations - $(date)" || echo "No changes to commit"
-          git push || echo "Nothing to push"
+          # Push back to the branch that triggered the workflow (schedule or manual run)
+          git push origin HEAD:${TARGET_BRANCH} || echo "Nothing to push"
 
       - name: Upload bad IP list artifact
         uses: actions/upload-artifact@v4

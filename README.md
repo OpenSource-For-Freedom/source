@@ -65,6 +65,18 @@ A cooked and taste tested banned IP list reduces risk by proactively blocking kn
 - Combine with rate limiting and anomaly detection for `DidS` defense in depth as a service.
 - Test rollback and allow‑listing for critical assets to prevent accidental service disruption.
 
+## Overview
+- This is an "API-KEY-LESS" repo.
+- Uses open-source data to collect known malicious IPs and geolocate them with Python.
+- Clone this repo to obtain actively updated data to help secure your infrastructure.
+- Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
+
+## Pipeline
+
+- **Fetch script:** [scripts/fetch_blacklists.py](scripts/fetch_blacklists.py) — fetch-only; writes per-source CSVs into the `data/` folder (produces `data/fetched_ips.csv` and `data/new_ips.csv`) and does NOT modify `badip_list.csv` or the database.
+- **Processor:** [scripts/process_badips.py](scripts/process_badips.py) — ingests all CSVs under `data/`, deduplicates and normalizes records, updates the canonical [badip_list.csv](badip_list.csv), and writes `data/badips.db`; also performs geolocation/ASN enrichment and generates charts.
+- **CI orchestration:** [.github/workflows/update-badip.yml](.github/workflows/update-badip.yml) — runs the fetcher, then the processor, then `scripts/generate_visualizations.py`, and commits the updated artifacts back to the repo (uses GitHub Actions secrets where needed).
+
 ## Database overview
 
 ### How database files feed badips.db and .mmdb
@@ -101,6 +113,11 @@ A cooked and taste tested banned IP list reduces risk by proactively blocking kn
 - **Countries Affected**: 213
 - **Average Threat Severity**: 3.00/5
 - **Last Updated**: 2025-12-17 20:11:36 UTC
+
+- **Total Malicious IPs**: 212,137
+- **Countries Affected**: 213
+- **Average Threat Severity**: 3.00/5
+- **Last Updated**: 2025-12-17 22:32:11 UTC
 
 ---
 
