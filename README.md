@@ -28,10 +28,10 @@
 
 ## Database Statistics
 
-- **Total Malicious IPs**: 212,137
-- **Countries Affected**: 213
-- **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-18 10:02:02 UTC
+- **Total Malicious IPs**: 212,143
+- **Countries Affected**: 214
+- **Average Threat Severity**: 0.00/5
+- **Last Updated**: 2025-12-18 14:08:42 UTC
 
 ---
 

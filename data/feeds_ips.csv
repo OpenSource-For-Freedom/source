@@ -37,3 +37,9 @@ ip,score,source,first_seen
 10.0.0.1,15,https://feeds.feedburner.com/GoogleOnlineSecurityBlog,2025-12-18T01:11:01Z
 34.54.88.138,15,https://blog.virustotal.com/feeds/posts/default,2025-12-18T01:11:01Z
 74.125.34.46,15,https://blog.virustotal.com/feeds/posts/default,2025-12-18T01:11:01Z
+3.2.2.4,15,https://feeds.feedburner.com/GoogleOnlineSecurityBlog,2025-12-18T19:07:57Z
+3.2.2.5,15,https://feeds.feedburner.com/GoogleOnlineSecurityBlog,2025-12-18T19:07:57Z
+192.168.0.1,15,https://feeds.feedburner.com/GoogleOnlineSecurityBlog,2025-12-18T19:07:57Z
+10.0.0.1,15,https://feeds.feedburner.com/GoogleOnlineSecurityBlog,2025-12-18T19:07:57Z
+34.54.88.138,15,https://blog.virustotal.com/feeds/posts/default,2025-12-18T19:07:57Z
+74.125.34.46,15,https://blog.virustotal.com/feeds/posts/default,2025-12-18T19:07:57Z

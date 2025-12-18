@@ -23,6 +23,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.14'
+      - name: Set up git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Install black
         run: python -m pip install --upgrade pip black
       - name: Run black (check)
@@ -37,4 +41,9 @@ jobs:
           black .
           git add -A
           git commit -m "Autoformat: black" || echo "No changes"
-          git push origin HEAD:refs/heads/auto/format || echo "Push failed or blocked"
+      - name: Pull latest changes before push
+        if: ${{ failure() }}
+        run: git pull --rebase origin auto/format || true
+      - name: Push formatted code
+        if: ${{ failure() }}
+        run: git push origin HEAD:refs/heads/auto/format || echo "Push failed or blocked"
