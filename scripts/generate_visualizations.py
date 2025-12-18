@@ -4,7 +4,6 @@ Generate visualizations and update README with bad IP statistics
 """
 
 # Many functions here are visualization-heavy and intentionally large.
-# Suppress a set of pylint checks that are noisy for complex plotting code.
 # pylint: disable=too-many-lines,too-many-statements,too-many-branches,too-many-locals,broad-exception-caught,use-dict-literal,import-outside-toplevel,invalid-name,line-too-long,unused-argument,unused-variable,maybe-no-member,no-member
 
 import sqlite3
@@ -15,7 +14,7 @@ import sys
 
 from typing import Any
 
-# Typed placeholders if imports fail.
+# plachold for plot errors
 plt: Any = None
 np: Any = None
 pe: Any = None
@@ -30,7 +29,7 @@ try:
     import plotly.graph_objects as go
 except ImportError:
     print("Warning: Some visualization libraries not available")
-    # keep the Any-typed placeholders as None at runtime
+    # keep the Any-typed placeholders as None at runtime mark and stage
 
 
 def _plotting_ready():
@@ -190,7 +189,7 @@ def create_steampunk_dashboard(stats):
         city_rows = cursor.fetchall()
         conn.close()
 
-        # Apply theme
+        # THEME: all colors here for graphs
         apply_steampunk_theme()
 
         # Build figure with 2x2 layout and deep blue gradient background
@@ -209,7 +208,8 @@ def create_steampunk_dashboard(stats):
         ax_bg.set_ylim(0, 1)
         ax_bg.axis("off")
 
-        # A1: Donut chart for severity
+        # A1: Donut chart for severity for Liam : )
+
         ax1 = fig.add_subplot(gs[0, 0])
         if sev_counts:
             level_names = ["Low", "Medium", "High", "Critical", "Extreme"]
@@ -217,7 +217,7 @@ def create_steampunk_dashboard(stats):
                 f"{level_names[s-1] if 1 <= s <= 5 else s}\n{sev_counts[i]:,}"
                 for i, s in enumerate(severities)
             ]
-            # Vibrant orange, pink, purple palette
+            #  orange, pink, purple palette
             bright_palette = ["#ff6b35", "#ff1493", "#ff69b4", "#da70d6", "#ba55d3"]
             colors = bright_palette[: len(severities)] if len(severities) <= 5 else bright_palette
             _pie = ax1.pie(
@@ -380,7 +380,7 @@ def get_statistics():
     conn = sqlite3.connect(str(db_path))
     cursor = conn.cursor()
 
-    # Total IPs
+    # Total found
     cursor.execute("SELECT COUNT(*) FROM bad_ips")
     total_ips = cursor.fetchone()[0]
 
