@@ -4,7 +4,6 @@ Generate visualizations and update README with bad IP statistics
 """
 
 # Many functions here are visualization-heavy and intentionally large.
-# Suppress a set of pylint checks that are noisy for complex plotting code.
 # pylint: disable=too-many-lines,too-many-statements,too-many-branches,too-many-locals,broad-exception-caught,use-dict-literal,import-outside-toplevel,invalid-name,line-too-long,unused-argument,unused-variable,maybe-no-member,no-member
 
 import sqlite3
@@ -15,7 +14,7 @@ import sys
 
 from typing import Any
 
-# Typed placeholders if imports fail.
+# plachold for plot errors
 plt: Any = None
 np: Any = None
 pe: Any = None
@@ -30,7 +29,7 @@ try:
     import plotly.graph_objects as go
 except ImportError:
     print("Warning: Some visualization libraries not available")
-    # keep the Any-typed placeholders as None at runtime
+    # keep the Any-typed placeholders as None at runtime mark and stage
 
 
 def _plotting_ready():
@@ -179,7 +178,7 @@ def create_steampunk_dashboard(stats):
         fig = plt.figure(figsize=(16, 9))
         gs = fig.add_gridspec(2, 2, hspace=0.35, wspace=0.28)
 
-        # A1: Donut chart for severity
+        # A1: Donut chart for severityfor Liam
         ax1 = fig.add_subplot(gs[0, 0])
         if sev_counts:
             level_names = ["Low", "Medium", "High", "Critical", "Extreme"]
