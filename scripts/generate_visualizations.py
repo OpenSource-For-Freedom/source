@@ -17,13 +17,22 @@ try:
     import plotly.express as px
 except ImportError:
     print("Warning: Some visualization libraries not available")
-    matplotlib = None
+    plt = None
+    np = None
+    pe = None
     pd = None
     plotly = None
 
 
+def _plotting_ready():
+    return plt is not None and np is not None
+
+
 def apply_viz_theme():
     """Apply a cohesive, modern Matplotlib theme for all charts."""
+    if plt is None:
+        return
+    assert plt is not None
     try:
         plt.rcParams.update({
             'figure.facecolor': 'white',
@@ -45,19 +54,22 @@ def apply_viz_theme():
 
 def apply_steampunk_theme():
     """Steampunk-inspired dark theme with brass/copper accents."""
+    if plt is None:
+        return
+    assert plt is not None
     try:
         plt.rcParams.update({
-            'figure.facecolor': '#12100e',
-            'axes.facecolor': '#1e1a16',
-            'axes.edgecolor': '#a67c52',
-            'axes.labelcolor': '#d0c0a0',
-            'text.color': '#d0c0a0',
+            'figure.facecolor': '#0b0b0f',
+            'axes.facecolor': '#111118',
+            'axes.edgecolor': '#76ff7a',  # lime edge
+            'axes.labelcolor': '#ff9be0',
+            'text.color': '#d8ffd8',
             'axes.grid': True,
-            'grid.color': '#6b4e2e',
+            'grid.color': '#2a2a33',
             'grid.linestyle': ':',
             'grid.alpha': 0.35,
-            'xtick.color': '#d0c0a0',
-            'ytick.color': '#d0c0a0',
+            'xtick.color': '#d8ffd8',
+            'ytick.color': '#d8ffd8',
             'axes.titlesize': 16,
             'axes.labelsize': 12,
             'xtick.labelsize': 9,
@@ -70,10 +82,9 @@ def apply_steampunk_theme():
 
 def steampunk_palette(n):
     """Return a list of n steampunk-like copper/brass colors."""
-    base = ['#b87333', '#cd7f32', '#b08d57', '#a67c52', '#8c6a3b']  # copper/bronze/brass tones
+    base = ['#ff66c4', '#76ff7a', '#ff9be0', '#64f58d', '#ff5fbf']  
     if n <= len(base):
         return base[:n]
-    # extend by cycling with slight lightening
     colors = []
     for i in range(n):
         c = base[i % len(base)]
@@ -83,6 +94,10 @@ def steampunk_palette(n):
 
 def create_steampunk_dashboard(stats):
     """Create a single PNG dashboard with multiple charts in a steampunk theme."""
+    if not _plotting_ready():
+        print('Matplotlib not available; skipping dashboard')
+        return False
+    assert plt is not None and np is not None
     try:
         db_path = Path('data/badips.db')
         conn = sqlite3.connect(str(db_path))
@@ -318,6 +333,10 @@ def create_country_chart(stats):
     """Create country distribution chart as PNG image with polished styling"""
     if not stats or not stats['top_countries']:
         return False
+    if not _plotting_ready():
+        print('Matplotlib not available; skipping country chart')
+        return False
+    assert plt is not None and np is not None
     try:
         countries = [c[0] for c in stats['top_countries']]
         counts = [c[1] for c in stats['top_countries']]
@@ -325,7 +344,8 @@ def create_country_chart(stats):
         x = np.arange(len(countries))
         max_count = max(counts) if counts else 1
         # Smooth gradient from light to deep crimson based on relative height
-        colors = plt.cm.Reds(0.35 + 0.65 * (np.array(counts) / max_count))
+        cmap_pinklime = plt.cm.get_cmap('PiYG') if hasattr(plt.cm, 'get_cmap') else plt.cm.RdYlGn
+        colors = cmap_pinklime(0.3 + 0.7 * (np.array(counts) / max_count))
 
         fig, ax = plt.subplots(figsize=(14, 7))
         bars = ax.bar(x, counts, color=colors, edgecolor='#7a0c0c', linewidth=1.2)
@@ -361,6 +381,10 @@ def create_country_chart(stats):
 
 def create_severity_chart(stats):
     """Create severity distribution chart as PNG image with polished styling"""
+    if not _plotting_ready():
+        print('Matplotlib not available; skipping severity chart')
+        return False
+    assert plt is not None and np is not None
     try:
         db_path = Path('data/badips.db')
         conn = sqlite3.connect(str(db_path))
@@ -558,6 +582,8 @@ def create_world_pins_map(stats):
         return False
 
 
+
+
 def update_readme(stats):
     """Update README with embedded chart images and statistics"""
     if not stats:
@@ -566,16 +592,56 @@ def update_readme(stats):
     
     readme_path = Path('README.md')
     
-    # Format timestamp
     update_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')
-    
-    readme_content = f"""# Bad IP Database
 
-**Automatically updated database of malicious IP addresses with geolocation mapping and threat analysis.**
+    def _get_repo_slug():
+        try:
+            git_config = Path('.git/config')
+            if not git_config.exists():
+                return None
+            content = git_config.read_text(encoding='utf-8', errors='ignore')
+            import re
+            m = re.search(r"\[remote \"origin\"\][^\]]*url\s*=\s*(.+)", content)
+            if not m:
+                return None
+            url = m.group(1).strip()
+            if 'github.com' not in url:
+                return None
+            url = url.replace('\n', '')
+            if url.startswith('git@github.com:'):
+                slug = url.split(':', 1)[1]
+            else:
+                slug = url.split('github.com/', 1)[1]
+            slug = slug.replace('.git', '')
+            return slug.strip()
+        except Exception:
+            return None
 
-This repository tracks known malicious IPs from threat intelligence sources, enriches them with geolocation data, and generates interactive visualizations showing the global distribution of threats.
+    repo_slug = _get_repo_slug()
+    actions_badge = f"https://github.com/{repo_slug}/actions/workflows/update-badip.yml/badge.svg" if repo_slug else None
+    views_badge = f"https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2F{repo_slug}&title=Views&edge_flat=false&count_bg=%238A5A2B&title_bg=%2312100E&color=%23D7B377" if repo_slug else None
+    python_badge = "https://img.shields.io/badge/Python-3.14-%233776AB?logo=python&logoColor=white"
+    gh_badge = "https://img.shields.io/badge/GitHub-Repo-%2312100E?logo=github&logoColor=white&labelColor=%23A67C52&color=%2312100E"
 
-**Data is automatically updated every Sunday at midnight UTC.**
+    readme_content = f"""
+<div align="center">
+
+    <img alt="GitHub" src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/github.svg" width="64" height="64" />
+
+    <h1>Bad IP Database</h1>
+
+    <p>
+        <img alt="Python" src="{python_badge}" />
+        <img alt="GitHub Repo" src="{gh_badge}" />
+        {f'<img alt="Actions" src="{actions_badge}" />' if actions_badge else ''}
+        {f'<img alt="Views" src="{views_badge}" />' if views_badge else ''}
+    </p>
+
+    <em>Automatically updated malicious IP database with geolocation mapping and threat analysis.</em>
+
+    <p><strong>Data updated every Sunday at midnight UTC.</strong></p>
+
+</div>
 
 ---
 
@@ -590,13 +656,17 @@ This repository tracks known malicious IPs from threat intelligence sources, enr
 
 ## Global Threat Distribution
 
-### Steampunk Dashboard (Single Image)
+<div align="center">
 
-![Dashboard](data/charts/dashboard.png)
+    <img alt="Pin Map" src="data/charts/map_pins.png" width="920" />
 
-### Detailed Views
+    <img alt="Dashboard" src="data/charts/dashboard.png" width="920" />
 
-![Pin Map](data/charts/map_pins.png)
+</div>
+
+---
+
+## Detailed Views
 
 ![Countries Chart](data/charts/countries.png)
 
@@ -627,7 +697,6 @@ def main():
     apply_viz_theme()
     apply_steampunk_theme()
 
-    # Get statistics from database
     stats = get_statistics()
     
     if not stats:
@@ -639,15 +708,11 @@ def main():
     print(f"  Countries: {stats['countries']}")
     print(f"  Avg Severity: {stats['severity_avg']:.2f}/5")
     
-    # Create visualizations
     print("\nCreating visualizations...")
     create_country_chart(stats)
-    # Skipping severity chart per request
     create_geo_map(stats)
     create_world_pins_map(stats)
     create_steampunk_dashboard(stats)
-    
-    # Update README
     print("\nUpdating README...")
     update_readme(stats)
     

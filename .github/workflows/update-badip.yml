@@ -20,12 +20,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.14'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests geoip2 matplotlib pandas plotly kaleido
+          pip install requests geoip2 matplotlib pandas plotly kaleido feedparser
 
       - name: Download latest bad IP list (keep scores)
         run: |
@@ -34,6 +34,12 @@ jobs:
             | grep -v -E '\s[1-2]$' \
             | awk '{print $1","$2}' \
             > badip_list.csv
+
+      - name: Ingest RSS/Atom feeds for additional IPs
+        run: |
+          python scripts/ingest_feeds.py
+
+      # OTX ingestion removed per request
 
       - name: Show sample and count
         run: |

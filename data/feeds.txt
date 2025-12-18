@@ -1,0 +1,18 @@
+# RSS/Atom feeds to ingest for potential malicious IP indicators.
+# Lines starting with # are comments.
+
+https://feeds.feedburner.com/GoogleOnlineSecurityBlog
+https://cloud.google.com/blog/topics/security/rss.xml
+https://blog.google/threat-analysis-group/rss/
+https://feeds.feedburner.com/KrebsOnSecurity
+https://blog.talosintelligence.com/feeds/posts/default
+https://securelist.com/feed/
+https://www.bleepingcomputer.com/feed/
+https://www.sans.org/newsletters/at-risk/rss/
+
+# Google-affiliated additional sources
+https://googleprojectzero.blogspot.com/feeds/posts/default
+https://workspaceupdates.googleblog.com/atom.xml
+https://blog.chromium.org/feeds/posts/default
+https://blog.virustotal.com/feeds/posts/default
+https://cloud.google.com/blog/products/security/rss.xml

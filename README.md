@@ -1,41 +1,98 @@
 <div align="center">
 
-<pre style="color:green;">
-                                                    
- _____    _____    _____    _____    _____    _____ 
-|   __|  |     |  |  |  |  | __  |  |     |  |   __|
-|__   |  |  |  |  |  |  |  |    -|  |   --|  |   __|
-|_____|  |_____|  |_____|  |__|__|  |_____|  |_____|
-                                                    
-</pre>
+<img alt="SOURCE" src="assets/source.png" width="600" />
 
-**The single S O U R C E for malicious IP addresses with geolocation mapping and threat analysis.**
+<h1>S-O-U-R-C-E</h1>
 
-This repository tracks known malicious IPs from threat intelligence sources, enriches them with geolocation data, and generates interactive visualizations showing the global distribution of threats.
+<p align="center">
+  <a href="https://github.com/OpenSource-For-Freedom/source/actions/workflows/update-badip.yml"><img alt="Workflow Status" src="https://github.com/OpenSource-For-Freedom/source/actions/workflows/update-badip.yml/badge.svg" /></a>
+  <a href="https://github.com/OpenSource-For-Freedom/source/actions"><img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub-Actions-%23000000?logo=github&logoColor=white" /></a>
+  <a href="https://www.python.org/downloads/release/python-3140/"><img alt="Python 3.14" src="https://img.shields.io/badge/python-3.14-blue?logo=python&logoColor=white" /></a>
+  <a href="https://github.com/OpenSource-For-Freedom/source"><img alt="Views" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FOpenSource-For-Freedom%2Fsource&title=Views&edge_flat=false&count_bg=%238A5A2B&title_bg=%2312100E&color=%23D7B377" /></a>
+</p>
 
-**Data updated every Sunday at midnight UTC.**
+<em>Automatically updated malicious IP database with geolocation mapping and threat analysis.</em>
+
+<p><strong>Data updated every Sunday at midnight UTC.</strong></p>
+
+</div>
 
 ---
 
+## Overview
+- This is an "API-KEY-LESS" repo.
+- Uses open-source data to collect known malicious IPs and geolocate them with Python.
+- Clone this repo to obtain actively updated data to help secure your infrastructure.
+- Source of truth: [Bad IP List](/badip_list.csv) is updated weekly; images and charts are regenerated on the same cadence.
+
+
+## Database overview
+
+### How database files feed badips.db and .mmdb
+
+- badip_list.csv (source-of-truth)
+    - Master CSV containing rows for each malicious IP (ip, first_seen, last_seen, severity, source_feed, asn, asn_org, country_code, city, latitude, longitude, notes).
+    - Updated weekly by CI; used as the single canonical input for all downstream artifacts.
+
+- Enrichment/cache files (intermediate)
+    - Temporary JSON/Parquet/CSV files produced during enrichment (geo lookups, ASN resolution, reverse DNS, threat scoring).
+    - Persisted to avoid repeated external lookups and to provide reproducible builds.
+
+- badips.db (SQLite)
+    - Built from badip_list.csv + enrichment data.
+    - Normalized tables (ips, asns, sources) and indexes on ip, last_seen, severity for fast analytic queries and joins.
+    - Primary runtime store for dashboards, CI checks, exports, and programmatic queries.
+
+- badips.mmdb (MaxMind DB)
+    - Generated from badip_list.csv + geolocation fields via an mmdb writer (e.g., libmaxminddb/mmdbwriter).
+    - Schema maps IP -> {is_malicious: true, severity, first_seen, last_seen, source, asn, asn_org, country, city, latitude, longitude}.
+    - Optimized for low-latency binary lookups by services (GeoIP2-compatible consumers, edge proxies, appliances).
+
+- Exports and consumers
+    - Blocklists (plain IP/CIDR), JSON/GeoJSON, CSV exports and the .mmdb are produced from badips.db or directly from the canonical CSV.
+    - SIEM enrichment jobs and automation read badips.db for joins; network appliances read the .mmdb for fast IP tagging.
+
+- CI pipeline
+    - CI: ingest feeds -> normalize -> enrich -> write badip_list.csv -> build badips.db -> build badips.mmdb -> generate charts/exports -> publish artifacts.
+    - Each step adds structure (DB tables, MMDB keys) tailored to consumer performance and query patterns.
+
 ## Database Statistics
 
-- **Total Malicious IPs**: 192,599
+- **Total Malicious IPs**: 192,605
 - **Countries Affected**: 213
 - **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-17 19:02:12 UTC
+- **Last Updated**: 2025-12-17 20:11:36 UTC
 
 ---
 
 ## Global Threat Distribution
 
-![Dashboard](data/charts/dashboard.png)
+<div align="center">
 
-![Pin Map](data/charts/map_pins.png)
+<img alt="Pin Map" src="data/charts/map_pins.png" width="920" />
 
-![Countries Chart](data/charts/countries.png)
+<img alt="Dashboard" src="data/charts/dashboard.png" width="920" />
+
+</div>
 
 ---
 
-**Data Source**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) | **Last Generated**: 2025-12-17 19:02:12 UTC
+## Detailed Views
+
+<div align="center">
+
+<img alt="Countries Chart" src="data/charts/countries.png" width="920" />
+
+<img alt="World Map" src="data/charts/worldmap.png" width="920" />
 
 </div>
+
+## Documentation
+
+- **[API.md](API.md)** - Database schema and query examples
+
+
+---
+**Data Sources**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) | [Google Safe Browsing](https://developers.google.com/safe-browsing) | [Google Transparency Report](https://transparencyreport.google.com/) | **Last Generated**: 2025-12-17 20:11:36 UTC
+</div>
+

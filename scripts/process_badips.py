@@ -102,16 +102,22 @@ def load_ips_from_csv(csv_file='badip_list.csv'):
     """Load IPs and optional scores from CSV file; returns list of (ip, severity)."""
     results = []
     try:
-        with open(csv_file, 'r') as f:
+        with open(csv_file, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             for row in reader:
                 if not row:
                     continue
-                ip = row[0].strip()
+                ip = (row[0] or '').strip()
                 if not ip:
                     continue
-                if len(row) >= 2 and row[1].strip():
-                    sev = map_score_to_severity(row[1].strip())
+                # Skip headers or invalid values
+                try:
+                    ipaddress.ip_address(ip)
+                except Exception:
+                    continue
+                # Severity mapping from optional score column
+                if len(row) >= 2 and (row[1] or '').strip():
+                    sev = map_score_to_severity((row[1] or '').strip())
                     results.append((ip, sev))
                 else:
                     results.append((ip, 3))
@@ -467,12 +473,27 @@ def main():
     conn = create_database()
     print("Database created/updated")
     
-    # Load IPs from CSV
+    # Load IPs from primary CSV
     ips = load_ips_from_csv()
     print(f"Loaded {len(ips)} IPs from CSV")
+
+    # Load additional IPs from ingest sources if available
+    extra = []
+    for extra_path in ['data/feeds_ips.csv']:
+        p = Path(extra_path)
+        if p.exists():
+            new_items = load_ips_from_csv(str(p))
+            extra.extend(new_items)
+            print(f"Loaded {len(new_items)} IPs from {extra_path}")
+
+    # Merge, dedupe by IP keeping highest severity
+    merged = {}
+    for ip, sev in ips + extra:
+        merged[ip] = max(sev, merged.get(ip, 0))
+    merged_list = [(ip, sev) for ip, sev in merged.items()]
     
     # Insert IPs
-    insert_ips_to_database(conn, ips)
+    insert_ips_to_database(conn, merged_list)
     
     
     # Try to use GeoLite2 databases first, then fall back to API
