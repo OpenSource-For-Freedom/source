@@ -1,11 +1,11 @@
 
 <div align="center">
 
-<img alt="SOURCE" src="https://raw.githubusercontent.com/OpenSource-For-Freedom/source/refs/heads/Primary/assets/source.png" width="920" style="border: 3px solid black;" />
+<img alt="SOURCE" src="https://raw.githubusercontent.com/OpenSource-For-Freedom/source/refs/heads/Primary/assets/source.png" width="400" />
 
 <img alt="GitHub" src="https://raw.githubusercontent.com/edent/SuperTinyIcons/master/images/svg/github.svg" width="64" height="64" />
 
-<h1>Bad IP Database</h1>
+<h1>S-O-U-R-C-E</h1>
 
 <p>
     <img alt="Python" src="https://img.shields.io/badge/Python-3.14-%233776AB?logo=python&logoColor=white" />
