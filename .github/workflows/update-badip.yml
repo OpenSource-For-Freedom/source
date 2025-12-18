@@ -1,4 +1,4 @@
-name: Update Bad IP Lists
+name: source
 
 permissions:
   contents: write
