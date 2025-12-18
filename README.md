@@ -49,6 +49,16 @@
 
 <img alt="World Map" src="data/charts/worldmap.png" width="920" />
 
+---
+
+## Cyber Attack Attribution (Hacker News)
+
+<div align="center">
+
+<img alt="HN Cyber Attack Mentions by Country" src="data/charts/hn_cyberattack_pie.png" width="920" />
+
+</div>
+
 </div>
 
 # Overview

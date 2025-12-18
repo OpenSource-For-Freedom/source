@@ -32,6 +32,10 @@ SOURCES = [
         "https://ransomwaretracker.abuse.ch/downloads/RW_IPBL.txt",
     ),
     ("zeus_abusech", "https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist"),
+    (
+        "hackernews_security",
+        "https://hnrss.org/security?format=json",
+    ),
 ]
 
 IPV4_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")

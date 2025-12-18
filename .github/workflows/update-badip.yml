@@ -45,6 +45,10 @@ jobs:
         run: |
           python scripts/fetch_blacklists.py
 
+      - name: Fetch Hacker News cyber attack mentions by country
+        run: |
+          python scripts/hacker_news.py
+
       - name: Orchestrate merge and processing
         run: |
           # `process_badips.py` now ingests `data/*.csv` (including fetched outputs)

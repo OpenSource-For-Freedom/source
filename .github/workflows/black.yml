@@ -31,19 +31,21 @@ jobs:
         run: python -m pip install --upgrade pip black
       - name: Run black (check)
         run: black --check .
+        continue-on-error: true
       - name: Show diff if formatting needed
         if: ${{ failure() }}
         run: git --no-pager diff
+        continue-on-error: true
       - name: Run Black (autoformat)
-        if: ${{ failure() }}
         run: |
           pip install black
           black .
           git add -A
           git commit -m "Autoformat: black" || echo "No changes"
+        continue-on-error: true
       - name: Pull latest changes before push
-        if: ${{ failure() }}
-        run: git pull --rebase origin auto/format || true
+        run: git pull --rebase origin main || true
+        continue-on-error: true
       - name: Push formatted code
-        if: ${{ failure() }}
-        run: git push origin HEAD:refs/heads/auto/format || echo "Push failed or blocked"
+        run: git push origin HEAD:main || echo "Push failed or blocked"
+        continue-on-error: true

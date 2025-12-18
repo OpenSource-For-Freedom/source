@@ -370,6 +370,187 @@ def create_steampunk_dashboard(stats):
         return False
 
 
+def create_cyber_attack_origins_dashboard(stats):
+    """Create a dashboard focused on cyber attack origins by country."""
+    if not _plotting_ready():
+        print("Matplotlib not available; skipping cyber attack origins dashboard")
+        return False
+    assert plt is not None and np is not None
+    try:
+        db_path = Path("data/badips.db")
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+
+        # Top 15 attacking countries
+        cursor.execute(
+            """
+            SELECT country, COUNT(*) as attack_count
+            FROM ip_geolocation
+            WHERE country IS NOT NULL
+            GROUP BY country
+            ORDER BY attack_count DESC
+            LIMIT 15
+        """
+        )
+        country_data = cursor.fetchall()
+        countries = [r[0] for r in country_data]
+        attack_counts = [int(r[1]) for r in country_data]
+
+        # Get severity breakdown for top 5 countries
+        cursor.execute(
+            """
+            SELECT g.country, b.severity, COUNT(*) as cnt
+            FROM ip_geolocation g
+            JOIN bad_ips b ON g.ip = b.ip
+            WHERE g.country IN (
+                SELECT country FROM ip_geolocation
+                WHERE country IS NOT NULL
+                GROUP BY country
+                ORDER BY COUNT(*) DESC
+                LIMIT 5
+            )
+            GROUP BY g.country, b.severity
+            ORDER BY g.country, b.severity
+        """
+        )
+        severity_by_country = cursor.fetchall()
+
+        # Calculate total attacks and find #1 attacker
+        cursor.execute(
+            """
+            SELECT COUNT(*) as total FROM ip_geolocation WHERE country IS NOT NULL
+        """
+        )
+        total_attacks = cursor.fetchone()[0]
+        
+        top_country = countries[0] if countries else "Unknown"
+        top_country_count = attack_counts[0] if attack_counts else 0
+        top_country_pct = (top_country_count / total_attacks * 100) if total_attacks > 0 else 0
+
+        conn.close()
+
+        # Create figure with gradient background
+        fig = plt.figure(figsize=(18, 10), facecolor="#0a0a2e")
+        gs = fig.add_gridspec(2, 3, hspace=0.4, wspace=0.35)
+
+        # Add gradient background
+        ax_bg = fig.add_axes([0, 0, 1, 1])
+        gradient = np.linspace(0, 1, 256).reshape(1, -1)
+        gradient = np.vstack([gradient] * 256)
+        ax_bg.imshow(gradient, extent=[0, 1, 0, 1], aspect="auto", cmap="cool", alpha=0.5, zorder=0)
+        ax_bg.set_xlim(0, 1)
+        ax_bg.set_ylim(0, 1)
+        ax_bg.axis("off")
+
+        # A1: Top 15 attacking countries (horizontal bar)
+        ax1 = fig.add_subplot(gs[:, 0])
+        y_pos = np.arange(len(countries))
+        colors = ["#ff1493", "#ff6b35", "#1e90ff", "#ffff00", "#ff00ff", "#ffa500"] * 3
+        colors = colors[:len(countries)]
+        bars = ax1.barh(y_pos, attack_counts, color=colors, edgecolor="#00d4ff", linewidth=1.5)
+        
+        # Highlight #1 country
+        if len(bars) > 0:
+            bars[0].set_color("#ff0080")
+            bars[0].set_linewidth(2.5)
+        
+        for i, (bar, count) in enumerate(zip(bars, attack_counts)):
+            ax1.text(count, bar.get_y() + bar.get_height()/2, 
+                    f" {count:,}", va="center", ha="left", 
+                    color="#ffffff", fontsize=10, fontweight="bold")
+        
+        ax1.set_yticks(y_pos)
+        ax1.set_yticklabels(countries, color="#00d4ff", fontsize=11)
+        ax1.set_xlabel("Malicious IPs Originated", color="#00d4ff", fontsize=12)
+        ax1.set_title("Top 15 Cyber Attack Origin Countries", color="#ff1493", fontsize=14, fontweight="bold", pad=15)
+        ax1.invert_yaxis()
+        ax1.set_facecolor("#0a0a2e")
+        ax1.tick_params(colors="#00d4ff")
+        ax1.grid(axis="x", color="#2a2a4e", alpha=0.3)
+
+        # A2: #1 Attacker callout
+        ax2 = fig.add_subplot(gs[0, 1])
+        ax2.text(0.5, 0.7, f"🔴 #1 Attack Origin", ha="center", va="center", 
+                fontsize=16, color="#ff0080", fontweight="bold")
+        ax2.text(0.5, 0.5, top_country, ha="center", va="center", 
+                fontsize=32, color="#ffff00", fontweight="bold")
+        ax2.text(0.5, 0.3, f"{top_country_count:,} Malicious IPs", ha="center", va="center", 
+                fontsize=14, color="#00d4ff")
+        ax2.text(0.5, 0.15, f"{top_country_pct:.1f}% of Global Attacks", ha="center", va="center", 
+                fontsize=12, color="#ff69b4")
+        ax2.set_xlim(0, 1)
+        ax2.set_ylim(0, 1)
+        ax2.set_facecolor("#0a0a2e")
+        ax2.axis("off")
+
+        # A3: Attack concentration pie
+        ax3 = fig.add_subplot(gs[0, 2])
+        top5_total = sum(attack_counts[:5]) if len(attack_counts) >= 5 else sum(attack_counts)
+        other_total = total_attacks - top5_total
+        pie_data = attack_counts[:5] + ([other_total] if other_total > 0 else [])
+        pie_labels = countries[:5] + (["Other"] if other_total > 0 else [])
+        pie_colors = ["#ff1493", "#ff6b35", "#1e90ff", "#ffff00", "#ff00ff", "#888888"]
+        
+        wedges, texts, autotexts = ax3.pie(pie_data, labels=pie_labels, autopct="%1.1f%%",
+                                            colors=pie_colors[:len(pie_data)],
+                                            wedgeprops=dict(edgecolor="#00d4ff", linewidth=1.5),
+                                            textprops=dict(color="#ffffff", fontsize=10))
+        ax3.set_title("Attack Concentration\n(Top 5 + Others)", color="#00d4ff", fontsize=12, fontweight="bold")
+        ax3.set_facecolor("#0a0a2e")
+
+        # B: Severity breakdown for top 5 countries (stacked bar)
+        ax4 = fig.add_subplot(gs[1, 1:])
+        
+        # Organize severity data
+        top5_countries = countries[:5]
+        severity_dict = {c: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0} for c in top5_countries}
+        for country, severity, count in severity_by_country:
+            if country in top5_countries and severity in severity_dict[country]:
+                severity_dict[country][severity] = count
+        
+        x = np.arange(len(top5_countries))
+        width = 0.6
+        severity_colors = ["#00ff88", "#ffff00", "#ffa500", "#ff69b4", "#ff0080"]
+        severity_labels = ["Low", "Medium", "High", "Critical", "Extreme"]
+        
+        bottom = np.zeros(len(top5_countries))
+        for sev in range(1, 6):
+            counts = [severity_dict[c][sev] for c in top5_countries]
+            bars = ax4.bar(x, counts, width, bottom=bottom, label=severity_labels[sev-1],
+                          color=severity_colors[sev-1], edgecolor="#00d4ff", linewidth=1)
+            bottom += counts
+        
+        ax4.set_xticks(x)
+        ax4.set_xticklabels(top5_countries, color="#00d4ff", fontsize=11)
+        ax4.set_ylabel("Number of Malicious IPs", color="#00d4ff", fontsize=11)
+        ax4.set_title("Threat Severity Distribution by Top 5 Attack Origins", 
+                     color="#ff1493", fontsize=13, fontweight="bold", pad=10)
+        ax4.legend(loc="upper right", framealpha=0.9, facecolor="#0a0a2e", edgecolor="#00d4ff")
+        ax4.set_facecolor("#0a0a2e")
+        ax4.tick_params(colors="#00d4ff")
+        ax4.grid(axis="y", color="#2a2a4e", alpha=0.3)
+
+        fig.suptitle(
+            "Cyber Attack Origins — Global Threat Landscape",
+            color="#ff1493",
+            fontsize=20,
+            fontweight="bold",
+            y=0.98
+        )
+
+        charts_path = Path("data/charts")
+        charts_path.mkdir(exist_ok=True)
+        out_path = charts_path / "attack_origins.png"
+        fig.savefig(str(out_path), bbox_inches="tight", facecolor="#0a0a2e")
+        plt.close(fig)
+
+        print("Cyber attack origins dashboard created")
+        return True
+    except Exception as e:
+        print(f"Error creating cyber attack origins dashboard: {e}")
+        return False
+
+
 def get_statistics():
     """Get statistics from database"""
     db_path = Path("data/badips.db")
@@ -840,6 +1021,109 @@ def update_readme(stats):
     print("README updated with embedded chart images")
 
 
+def create_hn_cyberattack_pie():
+    """Create a pie chart from Hacker News cyber attack mentions by country"""
+    if not _plotting_ready():
+        print("Matplotlib not available; skipping HN pie chart")
+        return False
+    assert plt is not None and np is not None
+    
+    try:
+        # Load HN mentions data
+        hn_data_path = Path("data/hn_country_mentions.json")
+        if not hn_data_path.exists():
+            print("HN data not found. Run scripts/hacker_news.py first.")
+            return False
+        
+        import json
+        with open(hn_data_path, 'r', encoding='utf-8') as f:
+            hn_data = json.load(f)
+        
+        countries_data = hn_data.get("countries", {})
+        if not countries_data:
+            print("No HN country data available")
+            return False
+        
+        # Extract top 10 countries by mentions
+        sorted_countries = sorted(
+            countries_data.items(), 
+            key=lambda x: x[1]["mentions"], 
+            reverse=True
+        )[:10]
+        
+        labels = [f"{data['country']}\n{data['mentions']}" for code, data in sorted_countries]
+        values = [data["mentions"] for code, data in sorted_countries]
+        
+        # Apply theme and create figure with gradient background
+        apply_viz_theme()
+        fig = plt.figure(figsize=(12, 8), facecolor="#0a0a2e")
+        
+        # Add gradient background
+        gradient = np.linspace(0, 1, 256).reshape(-1, 1)
+        gradient = np.hstack([gradient] * 256)
+        
+        ax_bg = fig.add_axes([0, 0, 1, 1])
+        ax_bg.imshow(gradient, aspect='auto', cmap='Blues_r', alpha=0.6, extent=[0, 1, 0, 1], zorder=0)
+        ax_bg.set_xlim(0, 1)
+        ax_bg.set_ylim(0, 1)
+        ax_bg.axis('off')
+        
+        # Create pie chart
+        ax = fig.add_subplot(111)
+        ax.set_facecolor('none')
+        
+        # Vibrant color palette
+        colors = steampunk_palette(len(values))
+        
+        wedges, texts, autotexts = ax.pie(
+            values,
+            labels=labels,
+            colors=colors,
+            autopct='%1.1f%%',
+            startangle=90,
+            wedgeprops=dict(edgecolor='#00d4ff', linewidth=2),
+            textprops=dict(color="#ffffff", fontsize=11, weight='bold')
+        )
+        
+        # Add white stroke to percentage text for readability
+        for autotext in autotexts:
+            autotext.set_path_effects([pe.withStroke(linewidth=2, foreground="#0a0a2e")])
+        
+        # Add white stroke to label text
+        for text in texts:
+            text.set_path_effects([pe.withStroke(linewidth=2, foreground="#0a0a2e")])
+        
+        ax.set_title(
+            "Distribution of Cyberattack Traffic by Nation\n% of hacking activity originating in each state",
+            color="#ffff00",
+            fontsize=16,
+            fontweight="bold",
+            pad=20
+        )
+        
+        # Add source attribution
+        last_updated = hn_data.get("last_updated", "Unknown")
+        update_date = last_updated.split('T')[0] if 'T' in last_updated else last_updated
+        fig.text(
+            0.5, 0.02,
+            f"Source: Hacker News Search API (Last 180 days) | Generated: {update_date}",
+            ha='center',
+            fontsize=10,
+            color='#00d4ff'
+        )
+        
+        charts_path = Path("data/charts")
+        charts_path.mkdir(exist_ok=True)
+        plt.savefig(str(charts_path / "hn_cyberattack_pie.png"), bbox_inches="tight", facecolor=fig.get_facecolor())
+        plt.close()
+        
+        print("HN cyber attack pie chart created")
+        return True
+    except Exception as e:
+        print(f"Error creating HN pie chart: {e}")
+        return False
+
+
 def main():
     """Main visualization generation function"""
     print("Generating visualizations and updating documentation...")
@@ -864,6 +1148,8 @@ def main():
     create_geo_map(stats)
     create_world_pins_map(stats)
     create_steampunk_dashboard(stats)
+    create_cyber_attack_origins_dashboard(stats)
+    create_hn_cyberattack_pie()
     print("\nUpdating README statistics (safe update)...")
     # Use the lightweight updater that patches only the Database Statistics block
     try:
