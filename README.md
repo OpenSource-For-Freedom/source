@@ -30,7 +30,7 @@
 
 - **Total Malicious IPs**: 212,143
 - **Countries Affected**: 214
-- **Average Threat Severity**: 0.00/5
+- **Average Threat Severity**: 4.20/5
 - **Last Updated**: 2025-12-18 21:17:40 UTC
 
 ---
