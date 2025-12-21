@@ -52,7 +52,7 @@ jobs:
       - name: fetch 
         run: |
           python scripts/fetch_blacklists.py
-
+                  host=$(dig @1.1.1.1 +timeout=2 +retry=0 -x "$ip" +short 2>/dev/null | tr -d '\r' | head -n1 || true)
       - name: Fetch Hacker News 
         run: |
           python scripts/hacker_news.py
