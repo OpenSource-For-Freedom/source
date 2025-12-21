@@ -5,9 +5,9 @@
 <h1>S-O-U-R-C-E</h1>
 
 <p align="center">
-  <a href="https://github.com/OpenSource-For-Freedom/source/actions/workflows/update-badip.yml">
-  <img alt="Workflow Status" src="https://github.com/OpenSource-For-Freedom/source/actions/workflows/update-badip.yml/badge.svg" />
-</a>
+  <a href="https://github.com/OpenSource-For-Freedom/SOURCE/actions/workflows/update-badip.yml">
+    <img alt="source" src="https://github.com/OpenSource-For-Freedom/SOURCE/actions/workflows/update-badip.yml/badge.svg" />
+  </a>
 <a href="https://github.com/OpenSource-For-Freedom/source/actions">
   <img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub-Actions-%23000000?logo=github&logoColor=white" />
 </a>
