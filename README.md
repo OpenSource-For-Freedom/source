@@ -26,7 +26,7 @@
 ## Resources
 - Curl this to capture the bad ip file
 ```
-curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/source/main/badip_list.csv
+curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/badip_list.csv
 ```
 
 ## Database Statistics
