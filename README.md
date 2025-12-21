@@ -83,7 +83,7 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 
 ## Cyber Attack Origins
 
-![Cyber Attack Origins](data/charts/cyber_attack_origins.png)
+![Cyber Attack Origins](data/charts/attack_origins.png)
 
 
 ## Wall of Shame
