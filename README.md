@@ -31,10 +31,12 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 
 ## Database Statistics
 
-- **Total Malicious IPs**: 247,069
-- **Countries Affected**: 217
-- **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-21 02:09:41 UTC
+| Metric | Value |
+|---|---|
+| Total Malicious IPs | 247,069 |
+| Countries Affected | 217 |
+| Average Threat Severity | 3.00/5 |
+| Last Updated | 2025-12-21 02:09:41 UTC |
 
 ---
 
