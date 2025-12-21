@@ -82,7 +82,7 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 </div>
 
 ## Wall of Shame
-| IP | ASN/ISP | Severity | Threats |
+| IP | Domain/Host | Severity | Threats |
 |---|---|---|---|
 | 83.219.248.37 | AS41745 | 3/5 | 27 |
 | 179.43.184.242 | AS51852 | 3/5 | 25 |

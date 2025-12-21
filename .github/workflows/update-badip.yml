@@ -63,6 +63,27 @@ jobs:
           # and is the single writer that updates `badip_list.csv` and `data/badips.db`.
           python scripts/process_badips.py
 
+      - name: Resolve hostnames via dig (reverse DNS)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dnsutils sqlite3
+          mkdir -p data
+          # Prefer top 20 offenders from the database (severity, threats)
+          if [ -f data/badips.db ]; then
+            sqlite3 -batch -noheader data/badips.db "SELECT ip_address FROM bad_ips ORDER BY severity DESC, threat_count DESC LIMIT 20;" > data/ips_to_resolve.txt || true
+          fi
+          # Fallback: first 200 IPs from CSV if DB isn't available
+          if [ ! -s data/ips_to_resolve.txt ]; then
+            awk -F, '{print $1}' badip_list.csv | head -n 200 > data/ips_to_resolve.txt
+          fi
+          : > data/resolved_domains.csv
+          while read ip; do
+            if [ -z "$ip" ]; then continue; fi
+            host=$(dig +timeout=2 +retry=0 -x "$ip" +short | tr -d '\r' | head -n1)
+            if [ -z "$host" ]; then host="N/A"; fi
+            echo "$ip,$host" >> data/resolved_domains.csv
+          done < data/ips_to_resolve.txt
+
       - name: Show sample and count
         run: |
           echo "Saved to badip_list.csv"

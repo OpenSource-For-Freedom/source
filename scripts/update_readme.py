@@ -107,7 +107,7 @@ def build_wall_block(items):
     """Render Wall of Shame section as a Markdown table."""
     header = (
         "## Wall of Shame\n"
-        "| IP | ASN/ISP | Severity | Threats |\n"
+        "| IP | Domain/Host | Severity | Threats |\n"
         "|---|---|---|---|\n"
     )
     rows = [
@@ -115,6 +115,28 @@ def build_wall_block(items):
         for i in items
     ]
     return header + "\n".join(rows) + "\n\n"
+
+
+def load_resolved_domains(path="data/resolved_domains.csv"):
+    """Load IP -> hostname mappings produced by workflow dig step."""
+    p = Path(path)
+    if not p.exists():
+        return {}
+    import csv
+    mapping = {}
+    try:
+        with p.open("r", encoding="utf-8", newline="") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if not row:
+                    continue
+                ip = (row[0] or "").strip()
+                dom = (row[1] or "N/A").strip()
+                if ip:
+                    mapping[ip] = dom or "N/A"
+    except Exception:
+        return {}
+    return mapping
 
 
 def replace_block(readme_path="README.md", stats_path="data/stats.json"):
@@ -150,6 +172,13 @@ def replace_block(readme_path="README.md", stats_path="data/stats.json"):
 
     # Update Wall of Shame with live table
     wall_items = load_wall_of_shame()
+    # Apply hostname overrides if available
+    resolved_map = load_resolved_domains()
+    if wall_items and resolved_map:
+        for i in wall_items:
+            ip = i.get("ip")
+            if ip and resolved_map.get(ip) and resolved_map[ip] != "N/A":
+                i["domain"] = resolved_map[ip]
     if wall_items:
         wall_block = build_wall_block(wall_items)
         wall_pat = re.compile(r"## Wall of Shame.*?(?=\n# Overview|\n## Overview|\Z)", re.S)
