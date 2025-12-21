@@ -38,6 +38,21 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 | Average Threat Severity | 3.00/5 |
 | Last Updated | 2025-12-21 02:09:41 UTC |
 
+## Top Countries
+
+| Country | IPs |
+|---|---|
+| CN | 48244 |
+| US | 39616 |
+| IN | 12924 |
+| RU | 9768 |
+| NL | 8972 |
+| TH | 7718 |
+| BR | 7550 |
+| DE | 6818 |
+| SG | 5798 |
+| KR | 5491 |
+
 ---
 
 ## Global Threat Distribution
@@ -67,30 +82,30 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 </div>
 
 ## Wall of Shame
-```bash
-| IP              | Domain                              | Score |
-|-----------------|-------------------------------------|-------|
-| 114.111.54.188  | N/A                                 | 10    |
-| 179.43.184.242  | hostedby.privatelayer.com           | 10    |
-| 193.221.201.95  | N/A                                 | 10    |
-| 45.148.10.121   | N/A                                 | 9     |
-| 80.82.77.139    | dojo.census.shodan.io               | 9     |
-| 129.45.84.93    | host-93.84.45.129.djezzycloud.dz    | 9     |
-| 2.57.121.25     | hosting25.tronicsat.com             | 8     |
-| 2.57.121.112    | dns112.personaliseplus.com          | 8     |
-| 3.137.73.221    | scan.cypex.ai                       | 8     |
-| 43.252.231.122  | N/A                                 | 8     |
-| 61.245.11.87    | N/A                                 | 8     |
-| 64.227.97.118   | N/A                                 | 8     |
-| 66.240.192.138  | census8.shodan.io                   | 8     |
-| 71.6.199.23     | einstein.census.shodan.io           | 8     |
-| 80.82.77.33     | sky.census.shodan.io                | 8     |
-| 80.94.92.164    | N/A                                 | 8     |
-| 80.94.92.182    | N/A                                 | 8     |
-| 80.94.92.186    | N/A                                 | 8     |
-| 94.102.49.193   | cloud.census.shodan.io              | 8     |
-| 103.224.243.145 | server.creativesense.co.in          | 8     |
-```
+| IP | ASN/ISP | Severity | Threats |
+|---|---|---|---|
+| 83.219.248.37 | AS41745 | 3/5 | 27 |
+| 179.43.184.242 | AS51852 | 3/5 | 25 |
+| 114.111.54.188 | AS54994 | 3/5 | 25 |
+| 45.148.10.121 | AS48090 | 3/5 | 25 |
+| 80.94.92.182 | AS47890 | 3/5 | 25 |
+| 80.94.92.186 | AS47890 | 3/5 | 25 |
+| 129.45.84.93 | AS327931 | 3/5 | 25 |
+| 143.20.185.79 | AS214209 | 3/5 | 25 |
+| 45.93.168.13 | AS48011 | 3/5 | 25 |
+| 61.245.11.87 | AS19970 | 3/5 | 25 |
+| 62.60.131.157 | AS208137 | 3/5 | 25 |
+| 64.227.97.118 | AS14061 | 3/5 | 25 |
+| 66.132.153.113 | AS398324 | 3/5 | 25 |
+| 66.132.153.115 | AS398324 | 3/5 | 25 |
+| 66.132.153.123 | AS398324 | 3/5 | 25 |
+| 66.132.153.127 | AS398324 | 3/5 | 25 |
+| 66.240.192.138 | AS10439 | 3/5 | 25 |
+| 71.6.165.200 | AS10439 | 3/5 | 25 |
+| 71.6.199.23 | AS10439 | 3/5 | 25 |
+| 80.82.77.33 | AS202425 | 3/5 | 25 |
+
+
 # Overview
 - This is an "API-KEY-LESS" repo.
 - Uses open-source data to collect known malicious IPs and geolocate them with Python.

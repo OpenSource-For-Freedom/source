@@ -43,7 +43,78 @@ def build_block(stats):
         f"| Average Threat Severity | {float(severity):.2f}/5 |\n"
         f"| Last Updated | {update_time} |\n\n"
     )
+    # Optional: Top Countries table (from stats['top_countries'])
+    top_countries = stats.get("top_countries") or []
+    if top_countries:
+        block += (
+            "## Top Countries\n\n"
+            "| Country | IPs |\n"
+            "|---|---|\n"
+        )
+        for entry in top_countries[:10]:
+            try:
+                c = str(entry.get("country", "Unknown"))
+                cnt = int(entry.get("count", 0))
+            except Exception:
+                c, cnt = str(entry), 0
+            block += f"| {c} | {cnt} |\n"
+        block += "\n"
     return block
+
+
+def load_wall_of_shame(db_path="data/badips.db", limit=20):
+    """Load top offenders for Wall of Shame from SQLite database.
+    Returns list of dicts: {ip, domain, severity, threats}
+    """
+    p = Path(db_path)
+    if not p.exists():
+        return []
+    import sqlite3
+
+    try:
+        conn = sqlite3.connect(str(p))
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT bi.ip_address,
+                   COALESCE(ig.asn, ig.isp, 'N/A') AS domain,
+                   bi.severity,
+                   bi.threat_count
+            FROM bad_ips bi
+            LEFT JOIN ip_geolocation ig ON ig.ip_address = bi.ip_address
+            ORDER BY bi.severity DESC, bi.threat_count DESC
+            LIMIT ?
+            """,
+            (int(limit),),
+        )
+        rows = cursor.fetchall()
+        conn.close()
+        results = [
+            {
+                "ip": str(r[0] or ""),
+                "domain": str(r[1] or "N/A"),
+                "severity": int(r[2] or 0),
+                "threats": int(r[3] or 0),
+            }
+            for r in rows
+        ]
+        return results
+    except Exception:
+        return []
+
+
+def build_wall_block(items):
+    """Render Wall of Shame section as a Markdown table."""
+    header = (
+        "## Wall of Shame\n"
+        "| IP | ASN/ISP | Severity | Threats |\n"
+        "|---|---|---|---|\n"
+    )
+    rows = [
+        f"| {i['ip']} | {i['domain']} | {i['severity']}/5 | {i['threats']} |"
+        for i in items
+    ]
+    return header + "\n".join(rows) + "\n\n"
 
 
 def replace_block(readme_path="README.md", stats_path="data/stats.json"):
@@ -76,6 +147,22 @@ def replace_block(readme_path="README.md", stats_path="data/stats.json"):
             content,
             flags=re.S,
         )
+
+    # Update Wall of Shame with live table
+    wall_items = load_wall_of_shame()
+    if wall_items:
+        wall_block = build_wall_block(wall_items)
+        wall_pat = re.compile(r"## Wall of Shame.*?(?=\n# Overview|\n## Overview|\Z)", re.S)
+        if wall_pat.search(content):
+            content = wall_pat.sub(wall_block, content, count=1)
+        else:
+            # If section doesn't exist, append before Overview
+            content = re.sub(
+                r"(\n# Overview|\n## Overview)",
+                "\n" + wall_block + r"\1",
+                content,
+                count=1,
+            )
 
     readme.write_text(content, encoding="utf-8")
     print("README Database Statistics updated")
