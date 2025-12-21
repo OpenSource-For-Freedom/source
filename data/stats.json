@@ -1,7 +1,8 @@
 {
   "total_ips": 246470,
   "countries_affected": 217,
-  "update_time": "2025-12-21T00:51:26.032108",
+  "severity_avg": 3.0,
+  "update_time": "2025-12-21T01:15:11.037326",
   "top_countries": [
     {
       "country": "CN",
