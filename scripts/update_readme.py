@@ -209,7 +209,7 @@ def ensure_cyber_origins_section(readme_path="README.md"):
 
     section = (
         "## Cyber Attack Origins\n\n"
-        "![Cyber Attack Origins](data/charts/cyber_attack_origins.png)\n\n"
+        "![Cyber Attack Origins](data/charts/attack_origins.png)\n\n"
     )
 
     pattern = re.compile(r"## Cyber Attack Origins.*?(?=\n## |\n# |\Z)", re.S)
