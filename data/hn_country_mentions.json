@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-12-21T02:41:45.512721",
+  "last_updated": "2025-12-21T02:57:14.675452",
   "search_period_days": 180,
   "countries": {
     "CN": {
@@ -10,13 +10,13 @@
       "country": "Russia",
       "mentions": 45
     },
-    "IN": {
-      "country": "India",
-      "mentions": 22
-    },
     "IR": {
       "country": "Iran",
-      "mentions": 21
+      "mentions": 27
+    },
+    "IN": {
+      "country": "India",
+      "mentions": 23
     },
     "NK": {
       "country": "North Korea",
@@ -38,12 +38,12 @@
       "country": "Brazil",
       "mentions": 5
     },
-    "FR": {
-      "country": "France",
-      "mentions": 5
-    },
     "SG": {
       "country": "Singapore",
+      "mentions": 4
+    },
+    "FR": {
+      "country": "France",
       "mentions": 4
     },
     "US": {
