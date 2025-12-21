@@ -400,7 +400,7 @@ def create_cyber_attack_origins_dashboard(stats):
             """
             SELECT g.country, b.severity, COUNT(*) as cnt
             FROM ip_geolocation g
-            JOIN bad_ips b ON g.ip = b.ip
+            JOIN bad_ips b ON g.ip_address = b.ip_address
             WHERE g.country IN (
                 SELECT country FROM ip_geolocation
                 WHERE country IS NOT NULL

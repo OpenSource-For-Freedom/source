@@ -38,7 +38,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Download latest bad IP list (keep scores)
+      - name: Download latest bad IP list 
         run: |
           curl -sS https://raw.githubusercontent.com/stamparm/ipsum/master/ipsum.txt \
             | grep -v '^#' \
@@ -49,22 +49,23 @@ jobs:
         run: |
           python scripts/ingest_feeds.py
 
-      - name: Fetch additional public blocklists (local tester)
+      - name: fetch 
         run: |
           python scripts/fetch_blacklists.py
 
-      - name: Fetch Hacker News cyber attack mentions by country
+      - name: Fetch Hacker News 
         run: |
           python scripts/hacker_news.py
 
-      - name: Orchestrate merge and processing
+      - name: merge 
         run: |
           # `process_badips.py` now ingests `data/*.csv` (including fetched outputs)
           # and is the single writer that updates `badip_list.csv` and `data/badips.db`.
           python scripts/process_badips.py
 
-      - name: Resolve hostnames via dig (reverse DNS)
+      - name: dig 
         run: |
+          set -eo pipefail
           sudo apt-get update
           sudo apt-get install -y dnsutils sqlite3
           mkdir -p data
@@ -76,6 +77,7 @@ jobs:
           if [ ! -s data/ips_to_resolve.txt ]; then
             awk -F, '{print $1}' badip_list.csv | head -n 200 > data/ips_to_resolve.txt
           fi
+          echo "IPs staged for reverse DNS:" && wc -l data/ips_to_resolve.txt
           : > data/resolved_domains.csv
           while read ip; do
             if [ -z "$ip" ]; then continue; fi
@@ -83,6 +85,9 @@ jobs:
             if [ -z "$host" ]; then host="N/A"; fi
             echo "$ip,$host" >> data/resolved_domains.csv
           done < data/ips_to_resolve.txt
+          echo "Resolved entries (first 10):"
+          head -n 10 data/resolved_domains.csv || true
+          echo "Total resolved:" && wc -l data/resolved_domains.csv
 
       - name: Show sample and count
         run: |
