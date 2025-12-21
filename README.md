@@ -81,17 +81,21 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 
 </div>
 
+## Cyber Attack Origins
+
+![Cyber Attack Origins](data/charts/cyber_attack_origins.png)
+
 ## Wall of Shame
 | IP | Domain/Host | Severity | Threats |
 |---|---|---|---|
 | 83.219.248.37 | AS41745 | 3/5 | 28 |
 | 179.43.184.242 | hostedby.privatelayer.com. | 3/5 | 26 |
 | 114.111.54.188 | AS54994 | 3/5 | 26 |
-| 45.148.10.121 | ;; communications error to 127.0.0.53#53: timed out | 3/5 | 26 |
-| 80.94.92.182 | ;; communications error to 127.0.0.53#53: timed out | 3/5 | 26 |
-| 80.94.92.186 | ;; communications error to 127.0.0.53#53: timed out | 3/5 | 26 |
+| 45.148.10.121 | AS48090 | 3/5 | 26 |
+| 80.94.92.182 | AS47890 | 3/5 | 26 |
+| 80.94.92.186 | AS47890 | 3/5 | 26 |
 | 129.45.84.93 | host-93.84.45.129.djezzycloud.dz. | 3/5 | 26 |
-| 143.20.185.79 | ;; communications error to 127.0.0.53#53: timed out | 3/5 | 26 |
+| 143.20.185.79 | AS214209 | 3/5 | 26 |
 | 45.93.168.13 | 45-93-168-13.digiturunc.com. | 3/5 | 26 |
 | 61.245.11.87 | AS19970 | 3/5 | 26 |
 | 62.60.131.157 | AS208137 | 3/5 | 26 |

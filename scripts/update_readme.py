@@ -132,6 +132,9 @@ def load_resolved_domains(path="data/resolved_domains.csv"):
                     continue
                 ip = (row[0] or "").strip()
                 dom = (row[1] or "N/A").strip()
+                # Skip noisy dig errors or empty
+                if dom.startswith(";;") or "communications error" in dom.lower():
+                    dom = "N/A"
                 if ip:
                     mapping[ip] = dom or "N/A"
     except Exception:
@@ -177,8 +180,9 @@ def replace_block(readme_path="README.md", stats_path="data/stats.json"):
     if wall_items and resolved_map:
         for i in wall_items:
             ip = i.get("ip")
-            if ip and resolved_map.get(ip) and resolved_map[ip] != "N/A":
-                i["domain"] = resolved_map[ip]
+            host = resolved_map.get(ip)
+            if ip and host and host != "N/A" and not host.startswith(";;") and "communications error" not in host.lower():
+                i["domain"] = host
     if wall_items:
         wall_block = build_wall_block(wall_items)
         wall_pat = re.compile(r"## Wall of Shame.*?(?=\n# Overview|\n## Overview|\Z)", re.S)
@@ -198,5 +202,32 @@ def replace_block(readme_path="README.md", stats_path="data/stats.json"):
     return 0
 
 
+def ensure_cyber_origins_section(readme_path="README.md"):
+    """Ensure the Cyber Attack Origins chart is present in README."""
+    readme = Path(readme_path)
+    content = readme.read_text(encoding="utf-8")
+
+    section = (
+        "## Cyber Attack Origins\n\n"
+        "![Cyber Attack Origins](data/charts/cyber_attack_origins.png)\n\n"
+    )
+
+    pattern = re.compile(r"## Cyber Attack Origins.*?(?=\n## |\n# |\Z)", re.S)
+    if pattern.search(content):
+        content = pattern.sub(section, content, count=1)
+    else:
+        if "## Wall of Shame" in content:
+            content = content.replace("## Wall of Shame", section + "## Wall of Shame", 1)
+        elif "# Overview" in content or "## Overview" in content:
+            content = re.sub(r"(\n# Overview|\n## Overview)", "\n" + section + r"\1", content, count=1)
+        else:
+            content += "\n" + section
+
+    readme.write_text(content, encoding="utf-8")
+    print("README Cyber Attack Origins section updated")
+
+
 if __name__ == "__main__":
-    raise SystemExit(replace_block())
+    rc = replace_block()
+    ensure_cyber_origins_section()
+    raise SystemExit(rc)
