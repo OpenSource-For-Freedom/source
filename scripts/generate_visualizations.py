@@ -29,7 +29,6 @@ try:
     import plotly.graph_objects as go
 except ImportError:
     print("Warning: Some visualization libraries not available")
-    # keep the Any-typed placeholders as None at runtime mark and stage
 
 
 def _plotting_ready():
@@ -37,7 +36,7 @@ def _plotting_ready():
 
 
 def apply_viz_theme():
-    """Apply a cohesive, dark neon Matplotlib theme for all charts."""
+    """charts"""
     if plt is None:
         return
     assert plt is not None
@@ -67,7 +66,7 @@ def apply_viz_theme():
 
 
 def apply_steampunk_theme():
-    """Steampunk-inspired dark theme with brass/copper accents."""
+    """copper accents."""
     if plt is None:
         return
     assert plt is not None
@@ -97,7 +96,7 @@ def apply_steampunk_theme():
 
 
 def steampunk_palette(n):
-    """Return a list of n vibrant cyberattack colors: oranges, pinks, blues, yellows."""
+    """Return a list."""
     base = ["#ff6b35", "#ff1493", "#00d4ff", "#ffff00", "#ff00ff", "#ffa500", "#1e90ff", "#ff69b4", "#00ffff", "#ffd700"]
     if n <= len(base):
         return base[:n]
@@ -109,7 +108,7 @@ def steampunk_palette(n):
 
 
 def apply_gradient_background(fig, ax):
-    """Apply a deep blue gradient background (corner to corner) to the figure and axes."""
+    """Apply background (corner to corner) to the figure and axes."""
     # Create gradient from blue (top-left) to darker blue (bottom-right)
     gradient = np.linspace(0, 1, 256).reshape(1, -1)
     gradient = np.vstack([gradient] * 256)
@@ -123,7 +122,7 @@ def apply_gradient_background(fig, ax):
 
 
 def create_steampunk_dashboard(stats):
-    """Create a single PNG dashboard with multiple charts in a steampunk theme."""
+    """PNG dashboard."""
     if not _plotting_ready():
         print("Matplotlib not available; skipping dashboard")
         return False
@@ -351,7 +350,7 @@ def create_steampunk_dashboard(stats):
             ax4.set_axis_off()
 
         fig.suptitle(
-            "Global Malicious IPs — Neon Dashboard",
+            "Global Malicious IPs - By Country and City",
             color="#ff1493",
             fontsize=18,
             fontweight="bold",

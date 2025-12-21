@@ -31,10 +31,10 @@ curl -sS https://raw.githubusercontent.com/opensource-for-freedom/SOURCE/main/ba
 
 ## Database Statistics
 
-- **Total Malicious IPs**: 212,143
-- **Countries Affected**: 214
+- **Total Malicious IPs**: 246,470
+- **Countries Affected**: 217
 - **Average Threat Severity**: 0.00/5
-- **Last Updated**: 2025-12-18 14:08:42 UTC
+- **Last Updated**: 2025-12-21 00:51:26 UTC
 
 ---
 
@@ -64,6 +64,31 @@ curl -sS https://raw.githubusercontent.com/opensource-for-freedom/SOURCE/main/ba
 
 </div>
 
+## Wall of Shame
+```bash
+| IP              | Domain                              | Score |
+|-----------------|-------------------------------------|-------|
+| 114.111.54.188  | N/A                                 | 10    |
+| 179.43.184.242  | hostedby.privatelayer.com           | 10    |
+| 193.221.201.95  | N/A                                 | 10    |
+| 45.148.10.121   | N/A                                 | 9     |
+| 80.82.77.139    | dojo.census.shodan.io               | 9     |
+| 129.45.84.93    | host-93.84.45.129.djezzycloud.dz    | 9     |
+| 2.57.121.25     | hosting25.tronicsat.com             | 8     |
+| 2.57.121.112    | dns112.personaliseplus.com          | 8     |
+| 3.137.73.221    | scan.cypex.ai                       | 8     |
+| 43.252.231.122  | N/A                                 | 8     |
+| 61.245.11.87    | N/A                                 | 8     |
+| 64.227.97.118   | N/A                                 | 8     |
+| 66.240.192.138  | census8.shodan.io                   | 8     |
+| 71.6.199.23     | einstein.census.shodan.io           | 8     |
+| 80.82.77.33     | sky.census.shodan.io                | 8     |
+| 80.94.92.164    | N/A                                 | 8     |
+| 80.94.92.182    | N/A                                 | 8     |
+| 80.94.92.186    | N/A                                 | 8     |
+| 94.102.49.193   | cloud.census.shodan.io              | 8     |
+| 103.224.243.145 | server.creativesense.co.in          | 8     |
+```
 # Overview
 - This is an "API-KEY-LESS" repo.
 - Uses open-source data to collect known malicious IPs and geolocate them with Python.
@@ -76,7 +101,9 @@ curl -sS https://raw.githubusercontent.com/opensource-for-freedom/SOURCE/main/ba
 - **[API.md](docs/API.md)** - Database schema and query examples
 - **[Database.md](docs/DB.md)** - Database design, included files and pipeline
 
+
+![batman](assets/IMG_4295.jpeg)
 ---
-**Data Sources**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) | [Google Safe Browsing](https://developers.google.com/safe-browsing) | [Google Transparency Report](https://transparencyreport.google.com/) | **Last Generated**: 2025-12-18 14:08:42 UTC
+**Data Sources**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) |[Hacker News](https://thehackernews.com/) | [Google Safe Browsing](https://developers.google.com/safe-browsing) | [Google Transparency Report](https://transparencyreport.google.com/) | **Last Generated**: 2025-12-21 00:51:26 UTC
 </div>
 
