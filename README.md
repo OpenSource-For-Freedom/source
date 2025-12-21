@@ -31,10 +31,10 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 
 ## Database Statistics
 
-- **Total Malicious IPs**: 246,470
+- **Total Malicious IPs**: 247,069
 - **Countries Affected**: 217
 - **Average Threat Severity**: 3.00/5
-- **Last Updated**: 2025-12-21 01:15:11 UTC
+- **Last Updated**: 2025-12-21 02:09:41 UTC
 
 ---
 
@@ -104,6 +104,6 @@ curl -sS https://raw.githubusercontent.com/OpenSource-For-Freedom/SOURCE/main/ba
 
 ![batman](assets/IMG_4295.jpeg)
 ---
-**Data Sources**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) |[Hacker News](https://thehackernews.com/) | [Google Safe Browsing](https://developers.google.com/safe-browsing) | [Google Transparency Report](https://transparencyreport.google.com/) | **Last Generated**: 2025-12-21 01:15:11 UTC
+**Data Sources**: [Stamparm/Ipsum](https://github.com/stamparm/ipsum) |[Hacker News](https://thehackernews.com/) | [Google Safe Browsing](https://developers.google.com/safe-browsing) | [Google Transparency Report](https://transparencyreport.google.com/) | **Last Generated**: 2025-12-21 02:09:41 UTC
 </div>
 
