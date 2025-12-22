@@ -2,19 +2,12 @@
 """
 Process bad IPs and store them in SQLite database with geolocation information
 """
-
-# Complex data-processing script; relax some pylint checks for readability.
-# pylint: disable=too-many-branches,too-many-statements,too-many-locals,too-many-nested-blocks,broad-exception-caught,invalid-name,duplicate-code
-
-
 import sqlite3
 import csv
 from pathlib import Path
 from datetime import datetime
 import json
 
-# gzip used previously; keep import if future compressed inputs are supported
-# removed unused 'gzip' to satisfy linter
 import ipaddress
 
 try:
@@ -31,7 +24,7 @@ import random
 
 
 def create_database():
-    """Create SQLite database schema"""
+    """Create SQLite database"""
     db_path = Path("data/badips.db")
     db_path.parent.mkdir(exist_ok=True)
 
@@ -205,7 +198,6 @@ def fetch_geolocation(ip_address):
 
 
 def enrich_geolocation_data_from_db(conn, city_db_path, asn_db_path=None):
-    """Enrich database with geolocation data using local GeoLite2 City and optional ASN database"""
     try:
         if not geoip2 or not Path(city_db_path).exists():
             print(
@@ -298,7 +290,7 @@ def download_geoip_database(target_path="data/GeoLite2-City.mmdb"):
         target = Path(target_path)
         target.parent.mkdir(exist_ok=True)
 
-        # Use MaxMind's mirror
+        # Use mirror as a source 
         url = "https://raw.githubusercontent.com/P3TERX/GeoLite.mmdb/download/GeoLite2-City.mmdb"
 
         print("Downloading GeoLite2 database...")
@@ -315,7 +307,7 @@ def download_geoip_database(target_path="data/GeoLite2-City.mmdb"):
             + f"{len(response.content) / 1024 / 1024:.1f} MB)"
         )
         return True
-    except Exception as e:  # pylint: disable=broad-exception-caught
+    except Exception as e:  # pylint
         print(f"Warning: Could not download or write GeoLite2 database: {e}")
         return False
 
@@ -586,11 +578,11 @@ def main():
         else:
             print("Fallback: Using API-based geolocation (limited)...")
             enrich_geolocation_data(conn, limit=100)
-    # Generate sample data if needed (for demo/testing)
+    # Generate sample data if needed (for local demo/testing)
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM ip_geolocation")
     geo_count = cursor.fetchone()[0]
-    if geo_count < 100:  # If not enough geolocation data, generate sample
+    if geo_count < 100:  # If not enough geolocation data, generate sample (local/testing)
         print("Generating sample geolocation data for testing...")
         generate_sample_geolocation_data(conn)
 
