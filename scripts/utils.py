@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Quick utility script for testing and managing the bad IP database
-"""
-
 import sqlite3
 import sys
 from pathlib import Path
@@ -15,7 +11,6 @@ except ImportError:
 
 
 def show_stats():
-    """Display database statistics"""
     db_path = Path("data/badips.db")
 
     if not db_path.exists():
@@ -72,14 +67,13 @@ def show_stats():
     """
     )
     for severity, count in cursor.fetchall():
-        bar_str = "█" * (count // max(1, total_ips // 20))
+        bar_str = "#" * (count // max(1, total_ips // 20))
         print(f"  Level {severity}: {count:,} IPs {bar_str}")
 
     conn.close()
 
 
 def search_ip(ip_address):
-    """Search for a specific IP"""
     db_path = Path("data/badips.db")
 
     if not db_path.exists():
@@ -126,7 +120,7 @@ def search_ip(ip_address):
 
 
 def export_data(format_type="csv"):
-    """Export database to CSV or JSON"""
+    """Export database to CSV/ JSON"""
     db_path = Path("data/badips.db")
 
     if not db_path.exists():
@@ -168,7 +162,6 @@ def export_data(format_type="csv"):
 
 
 def reset_database():
-    """Reset the database"""
     db_path = Path("data/badips.db")
 
     if db_path.exists():
@@ -183,7 +176,6 @@ def reset_database():
 
 
 def main():
-    """Main utility function"""
     if len(sys.argv) < 2:
         print("Bad IP Database Utility")
         print("=" * 50)
