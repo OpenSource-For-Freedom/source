@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="SOURCE" src="assets/source.png" width="800" />
+<img alt="SOURCE" src="assets/source.PNG" width="800" />
 
 
 <h1>S-O-U-R-C-E</h1>
