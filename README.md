@@ -1,9 +1,6 @@
 <div align="center">
 <img alt="SOURCE" src="assets/source.PNG" width="800" />
 
-
-<h1>S-O-U-R-C-E</h1>
-
 <p align="center">
   <a href="https://github.com/OpenSource-For-Freedom/SOURCE/actions/workflows/update-badip.yml">
     <img alt="source" src="https://github.com/OpenSource-For-Freedom/SOURCE/actions/workflows/update-badip.yml/badge.svg" />
