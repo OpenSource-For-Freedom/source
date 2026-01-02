@@ -1,0 +1,83 @@
+title: "[Show & Tell] "
+labels: ["showcase"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share how you're using SOURCE! We love seeing real-world implementations and creative integrations.
+
+  - type: textarea
+    id: overview
+    attributes:
+      label: What Did You Build?
+      description: Give us a brief overview of your implementation
+      placeholder: "Example: I built a real-time dashboard that visualizes blocked IPs by country..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: How Does It Work?
+      description: Describe your technical approach and integration
+      placeholder: "Example: The system pulls the CSV hourly, loads it into Redis, and queries it via a Flask API..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: use-case
+    attributes:
+      label: Use Case Category
+      description: What type of implementation is this?
+      options:
+        - Firewall Integration
+        - Web Application Protection
+        - API Gateway Security
+        - SIEM Integration
+        - Visualization/Dashboard
+        - Automation/Orchestration
+        - Research/Analysis
+        - Educational/Learning
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: stack
+    attributes:
+      label: Tech Stack
+      description: What technologies did you use?
+      placeholder: "Example: Python, Flask, Redis, Plotly, Docker"
+
+  - type: textarea
+    id: results
+    attributes:
+      label: Results & Metrics
+      description: What impact has this had? Share any metrics or outcomes
+      placeholder: "Example: Blocked 5,000+ malicious connections in the first week, reduced scan traffic by 40%..."
+
+  - type: textarea
+    id: lessons
+    attributes:
+      label: Lessons Learned
+      description: Any challenges, tips, or advice for others?
+      placeholder: "Example: Initially had performance issues with CSV parsing, switched to SQLite queries which improved speed 10x..."
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Links & Resources
+      description: Share any code, screenshots, demos, or documentation (optional)
+      placeholder: |
+        - GitHub repo: https://github.com/...
+        - Live demo: https://...
+        - Screenshots: [Attach images]
+
+  - type: checkboxes
+    id: sharing
+    attributes:
+      label: Sharing Options
+      options:
+        - label: My implementation is open source and I'm sharing the code
+        - label: I'm open to answering questions about my implementation
+        - label: Others can use my approach as a reference

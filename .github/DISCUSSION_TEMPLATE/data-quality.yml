@@ -1,0 +1,92 @@
+title: "[Data Quality] "
+labels: ["data quality", "false positive"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report data quality issues, false positives, or suggest improvements to the threat intelligence feed.
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of data quality issue is this?
+      options:
+        - False Positive (legitimate IP marked as malicious)
+        - Outdated IP (should be removed)
+        - Missing Geolocation Data
+        - Incorrect ASN Information
+        - Severity Miscalculation
+        - Duplicate Entries
+        - Other Data Issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: ip-details
+    attributes:
+      label: IP Address(es) Affected
+      description: List the IP addresses related to this issue
+      placeholder: |
+        - 1.2.3.4
+        - 5.6.7.8
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence / Justification
+      description: Provide evidence for your claim (WHOIS data, reverse DNS, legitimate service documentation, etc.)
+      placeholder: |
+        Example: IP 1.2.3.4 belongs to Cloudflare's CDN network (AS13335). See: https://cloudflare.com/ips
+        WHOIS shows it's allocated to a legitimate service provider.
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-data
+    attributes:
+      label: Current Data in SOURCE
+      description: What does SOURCE currently show for this IP?
+      placeholder: |
+        IP: 1.2.3.4
+        Severity: 4/5
+        Country: US
+        ASN: AS13335
+        Threat Count: 25
+
+  - type: textarea
+    id: source-feed
+    attributes:
+      label: Source Feed (if known)
+      description: Do you know which threat intelligence source flagged this IP?
+      placeholder: "Example: Appears to be from Spamhaus DROP list"
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact Level
+      description: How serious is this data quality issue?
+      options:
+        - Critical - Major service disruption or high false positive rate
+        - High - Affects multiple production systems
+        - Medium - Affects specific use cases
+        - Low - Minor issue or improvement suggestion
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information that would help us evaluate this issue
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification Checklist
+      options:
+        - label: I have verified this IP's ownership through WHOIS or other reliable sources
+        - label: I have checked if this IP is shared/dynamic (may have been reassigned)
+        - label: I have reviewed the IP's current behavior (not just historical data)

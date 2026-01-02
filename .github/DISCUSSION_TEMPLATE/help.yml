@@ -1,0 +1,90 @@
+title: "[Help] "
+labels: ["help wanted", "question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need help with SOURCE? Describe your issue below and the community will try to assist.
+        
+        **Note:** For bug reports, please use the [Issues tab](https://github.com/OpenSource-For-Freedom/SOURCE/issues) instead.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What Are You Trying To Do?
+      description: Describe what you're attempting to accomplish
+      placeholder: "Example: I'm trying to integrate SOURCE with my pfSense firewall..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What's Going Wrong?
+      description: Describe the issue or error you're encountering
+      placeholder: "Example: The firewall isn't blocking any IPs even though I've added them to an alias..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: What Have You Tried?
+      description: List the troubleshooting steps you've already attempted
+      placeholder: |
+        1. Downloaded badip_list.csv from the repository
+        2. Created a URL alias in pfSense pointing to the raw GitHub URL
+        3. Created a firewall rule to block traffic from the alias
+        4. Tested by trying to access from a blocked IP (no block occurred)
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Your Environment
+      description: Provide details about your setup
+      placeholder: |
+        - Platform: pfSense 2.7 / AWS WAF / iptables / etc.
+        - Data source: CSV / SQLite / API
+        - Update method: Manual / Cron / CI/CD
+        - Any relevant versions or configurations
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs or Error Messages
+      description: Paste any error messages or relevant log entries
+      placeholder: |
+        ```
+        Paste logs here
+        ```
+      render: shell
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Help Category
+      description: What area do you need help with?
+      options:
+        - Installation / Setup
+        - Firewall Integration
+        - Cloud Deployment (AWS/Azure/GCP)
+        - Database Queries
+        - Automation / Scripting
+        - Data Format / Parsing
+        - Performance Issues
+        - False Positives
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-Flight Checklist
+      options:
+        - label: I have read the documentation (README, OVERVIEW, CONTRIBUTING)
+          required: true
+        - label: I have searched existing discussions and issues for similar problems
+          required: true
+        - label: This is not a bug report (those belong in Issues, not Discussions)
+          required: true

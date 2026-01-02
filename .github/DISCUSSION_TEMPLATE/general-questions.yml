@@ -1,0 +1,50 @@
+title: "[Q&A] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for asking a question! Please search existing discussions first to see if your question has already been answered.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know about SOURCE?
+      placeholder: "Example: How do I filter IPs by country in the CSV file?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional information that might help us answer your question
+      placeholder: "Example: I'm trying to integrate SOURCE with my firewall..."
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic Area
+      description: Which area does your question relate to?
+      options:
+        - Data Format / Schema
+        - Integration / Deployment
+        - Severity Scoring
+        - Geolocation / ASN Data
+        - Database Queries
+        - Visualizations
+        - General Usage
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing discussions for similar questions
+          required: true
+        - label: I have read the documentation (README, docs folder)
+          required: true
