@@ -16,7 +16,7 @@
 </a>
 </p>
 
-# SOURCE — Malicious IP Intelligence Feed
+# Malicious IP Intelligence Feed
 
 **Threat intelligence for network defense.**  
 SOURCE provides regularly updated malicious IP data with geolocation, ASN enrichment, and severity scoring. It's designed for security teams, SOCs, and infrastructure automation.
